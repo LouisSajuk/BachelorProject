@@ -45,7 +45,7 @@
                     "name": "Crouch",
                     "type": "Button",
                     "id": "27c5f898-bc57-4ee1-8800-db469aca5fe3",
-                    "expectedControlType": "Button",
+                    "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
@@ -81,7 +81,7 @@
                     "name": "Sprint",
                     "type": "Button",
                     "id": "641cd816-40e6-41b4-8c3d-04687c349290",
-                    "expectedControlType": "Button",
+                    "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
@@ -1028,7 +1028,16 @@
                     "id": "24ee214e-86f6-4102-95e7-fd5be14acdb5",
                     "expectedControlType": "",
                     "processors": "",
-                    "interactions": "Press(behavior=2)",
+                    "interactions": "Press",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "SprintOff",
+                    "type": "Button",
+                    "id": "fd4bd728-7f80-4a6d-9bf5-d50648522b6f",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "Press(behavior=1)",
                     "initialStateCheck": false
                 }
             ],
@@ -1046,10 +1055,10 @@
                 },
                 {
                     "name": "",
-                    "id": "e4fec8f2-bb11-43b6-925d-97c7dc77b4a8",
+                    "id": "6dca9a07-7d37-4055-8087-65c6e9f11356",
                     "path": "<Gamepad>/rightStick",
                     "interactions": "",
-                    "processors": "",
+                    "processors": "ScaleVector2(x=-100,y=100),InvertVector2",
                     "groups": ";Gamepad",
                     "action": "Look",
                     "isComposite": false,
@@ -1074,6 +1083,17 @@
                     "processors": "",
                     "groups": ";Gamepad",
                     "action": "Sprint",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "605c0c6d-b04b-42c0-8697-68a4f8ebd226",
+                    "path": "<Gamepad>/buttonEast",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";Gamepad",
+                    "action": "SprintOff",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
