@@ -7,12 +7,12 @@ public class PlayerControls : MonoBehaviour
     [SerializeField] private CharacterController controller;
     [SerializeField] private Transform camera;
 
-    [SerializeField] private Rigidbody rb;
+    //[SerializeField] private Rigidbody rb;
     [SerializeField] private float speed;
-    [SerializeField] private float rotateSpeed;
+    //[SerializeField] private float rotateSpeed;
     [SerializeField] private float sprintMultiplier;
-    [SerializeField] private Camera playerCamera;
-    [SerializeField] private GameObject cameraCylinder;
+    //[SerializeField] private Camera playerCamera;
+    //[SerializeField] private GameObject cameraCylinder;
 
 
     //[SerializeField] private float jumpForce;
@@ -86,13 +86,15 @@ public class PlayerControls : MonoBehaviour
         //rb.AddForce(moveInputValue * speed);
     }
 
+    
+    /*
     private void LookLogicMethod()
     {
         Vector3 result = lookInputValue * (rotateSpeed * Time.fixedDeltaTime);
         Debug.Log(result);
 
-        /*
-
+        
+        //useless start
         if (rotate.sqrMagnitude < 0.01)
             return;
 
@@ -100,19 +102,20 @@ public class PlayerControls : MonoBehaviour
         m_Rotation.y += rotate.x * (rotateSpeed * Time.deltaTime);
         m_Rotation.x = Mathf.Clamp(m_Rotation.x - rotate.y * scaledRotateSpeed, -89, 89);
         transform.localEulerAngles = m_Rotation;
-        */
+        //useless end
 
         cameraCylinder.GetComponent<Rigidbody>().angularVelocity = result;
 
         //cameraCylinder.transform.localEulerAngles = result;
 
-        /*
+        //useless start
         Vector3 result = moveInputValue * (moveSpeedValue * Time.fixedDeltaTime);
         rb.linearVelocity = result;
-        */
+        //useless end
 
         //rb.AddForce(moveInputValue * speed);
     }
+    */
 
     private void Update()
     {
