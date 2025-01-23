@@ -21,9 +21,13 @@ public class PlayerControls : MonoBehaviour
     private Vector3 lookInputValue;
     private float moveSpeedValue;
 
+    [SerializeField] private float fireRate;
+    private float fireRateTimeStamp;
+
     private void Start()
     {
         moveSpeedValue = speed;
+        fireRateTimeStamp = 0;
         StartTest();
     }
 
@@ -51,10 +55,16 @@ public class PlayerControls : MonoBehaviour
 
     private void OnShoot()
     {
-        Debug.Log("sollte schieﬂen");
-        Aim();
-        GameObject tempProjektil = Instantiate(projektil, schieﬂpunkt.position, schieﬂpunkt.rotation);
-        tempProjektil.GetComponent<Rigidbody>().linearVelocity = schieﬂpunkt.forward * projektilGeschwindigkeit;
+        if (Time.time > fireRateTimeStamp)
+        {
+
+            //Debug.Log("sollte schieﬂen");
+            Aim();
+            GameObject tempProjektil = Instantiate(projektil, schieﬂpunkt.position, schieﬂpunkt.rotation);
+            tempProjektil.GetComponent<Rigidbody>().linearVelocity = schieﬂpunkt.forward * projektilGeschwindigkeit;
+
+            fireRateTimeStamp = Time.time + fireRate;
+        }
     }
 
     private void Aim()
@@ -64,6 +74,8 @@ public class PlayerControls : MonoBehaviour
 
         RaycastHit hit;
         Ray ray = camera.ScreenPointToRay(new Vector3(screenX, screenY));
+
+        Debug.DrawRay(ray.origin, ray.direction * 10, Color.yellow);
 
         if (Physics.Raycast(ray, out hit))
         {

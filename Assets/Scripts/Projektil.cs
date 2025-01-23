@@ -16,16 +16,19 @@ public class Projektil : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        Debug.Log("Objekt getroffen?");
+        //Debug.Log("Objekt getroffen?");
         if (collision.gameObject.CompareTag("Target"))
         {
-            Debug.Log("Ziel getroffen!");
+
+            GameObject.FindWithTag("Ziel").GetComponent<Portal>().incrementCount();
+
+            Debug.Log(collision.gameObject.tag + " getroffen!!!");
             Destroy(collision.gameObject);
             Destroy(gameObject);
         }
         else
         {
-            Debug.Log("Objekt getroffen!");
+            //Debug.Log("Objekt getroffen!");
             Destroy(gameObject);
         }
     }

@@ -547,8 +547,9 @@ MonoBehaviour:
   sprintMultiplier: 2
   "schie\xDFpunkt": {fileID: 7885827630673033439}
   projektil: {fileID: 8009666755950641690, guid: 400cdc6a73b42234382ce7b47e98291c, type: 3}
-  projektilGeschwindigkeit: 25
+  projektilGeschwindigkeit: 300
   ubiiNode: {fileID: 0}
+  fireRate: 0.5
 --- !u!114 &1510812003002981492
 MonoBehaviour:
   m_ObjectHideFlags: 0
