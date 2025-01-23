@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 429858}
   - component: {fileID: 3395838}
   - component: {fileID: 2318790}
-  - component: {fileID: 64220248573248712}
+  - component: {fileID: 1055807937431933757}
   m_Layer: 0
   m_Name: SM_Bld_Rockwall_Stairs_01
   m_TagString: Untagged
@@ -87,8 +87,8 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &64220248573248712
-MeshCollider:
+--- !u!65 &1055807937431933757
+BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -105,7 +105,6 @@ MeshCollider:
   m_IsTrigger: 0
   m_ProvidesContacts: 0
   m_Enabled: 1
-  serializedVersion: 5
-  m_Convex: 1
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 43312409244932542, guid: 8c2736f3aab5c944c945f3c7d00851be, type: 2}
+  serializedVersion: 3
+  m_Size: {x: 1.7967155, y: 2.7411652, z: 3.9053762}
+  m_Center: {x: 0.0000005066395, y: 1.3705826, z: -0.0000011920929}

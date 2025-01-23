@@ -36,7 +36,7 @@
                     "name": "Interact",
                     "type": "Button",
                     "id": "852140f2-7766-474d-8707-702459ba45f3",
-                    "expectedControlType": "Button",
+                    "expectedControlType": "",
                     "processors": "",
                     "interactions": "Hold",
                     "initialStateCheck": false
@@ -1014,15 +1014,6 @@
                     "initialStateCheck": true
                 },
                 {
-                    "name": "Jump",
-                    "type": "Button",
-                    "id": "92938f49-a4c9-4133-90ff-e2faefc59681",
-                    "expectedControlType": "",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
                     "name": "Sprint",
                     "type": "Button",
                     "id": "24ee214e-86f6-4102-95e7-fd5be14acdb5",
@@ -1038,6 +1029,15 @@
                     "expectedControlType": "",
                     "processors": "",
                     "interactions": "Press(behavior=1)",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Shoot",
+                    "type": "Button",
+                    "id": "753f2a5f-ff87-49bf-a958-dfa04827a4a1",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "Press",
                     "initialStateCheck": false
                 }
             ],
@@ -1066,17 +1066,6 @@
                 },
                 {
                     "name": "",
-                    "id": "a80bbe76-d6c4-4b02-82ab-8ac16e5f4916",
-                    "path": "<Gamepad>/buttonSouth",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": ";Gamepad",
-                    "action": "Jump",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
                     "id": "c7107322-ca42-4027-8d91-59613c0655d9",
                     "path": "<Gamepad>/buttonEast",
                     "interactions": "",
@@ -1094,6 +1083,17 @@
                     "processors": "",
                     "groups": ";Gamepad",
                     "action": "SprintOff",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "7e44870c-1d94-431f-b402-0ef43f954f5e",
+                    "path": "<Gamepad>/rightTrigger",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";Gamepad",
+                    "action": "Shoot",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

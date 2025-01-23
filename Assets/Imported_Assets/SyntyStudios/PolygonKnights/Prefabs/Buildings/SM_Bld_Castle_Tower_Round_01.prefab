@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 429872}
   - component: {fileID: 3327618}
   - component: {fileID: 2382500}
-  - component: {fileID: 64615147384907232}
+  - component: {fileID: -2847044267946652764}
   m_Layer: 0
   m_Name: SM_Bld_Castle_Tower_Round_01
   m_TagString: Untagged
@@ -87,8 +87,8 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &64615147384907232
-MeshCollider:
+--- !u!136 &-2847044267946652764
+CapsuleCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -105,7 +105,8 @@ MeshCollider:
   m_IsTrigger: 0
   m_ProvidesContacts: 0
   m_Enabled: 1
-  serializedVersion: 5
-  m_Convex: 1
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 43594606719205880, guid: 1dee5a4a30137e74a823d4fe0716283c, type: 2}
+  serializedVersion: 2
+  m_Radius: 1.5
+  m_Height: 6
+  m_Direction: 1
+  m_Center: {x: 0, y: 1.5, z: 0}

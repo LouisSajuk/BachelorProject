@@ -1,3 +1,4 @@
+using Ubii.Services;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UIElements;
@@ -5,18 +6,16 @@ using UnityEngine.UIElements;
 public class PlayerControls : MonoBehaviour
 {
     [SerializeField] private CharacterController controller;
-    [SerializeField] private Transform camera;
+    [SerializeField] private Camera camera;
 
-    //[SerializeField] private Rigidbody rb;
     [SerializeField] private float speed;
-    //[SerializeField] private float rotateSpeed;
     [SerializeField] private float sprintMultiplier;
-    //[SerializeField] private Camera playerCamera;
-    //[SerializeField] private GameObject cameraCylinder;
 
+    [SerializeField] private Transform schieﬂpunkt;
+    [SerializeField] private GameObject projektil;
+    [SerializeField] private int projektilGeschwindigkeit;
 
-    //[SerializeField] private float jumpForce;
-    //[SerializeField] private float fallMultiplier;
+    [SerializeField] private UbiiNode ubiiNode;
 
     private Vector3 moveInputValue;
     private Vector3 lookInputValue;
@@ -25,7 +24,7 @@ public class PlayerControls : MonoBehaviour
     private void Start()
     {
         moveSpeedValue = speed;
-
+        StartTest();
     }
 
     private void OnMove(InputValue inputValue)
@@ -36,18 +35,8 @@ public class PlayerControls : MonoBehaviour
 
     private void OnLook(InputValue inputValue)
     {
-        /*
-        if (inputValue.Get<Vector2>().sqrMagnitude < 0.01)
-        {
-            lookInputValue = Vector3.zero;
-        }
-        else
-        {
-            //Debug.Log("moving cylinder");
-            lookInputValue.y = -inputValue.Get<Vector2>().x;
-            lookInputValue.x = inputValue.Get<Vector2>().y;
-        }
-        */
+        //moveInputValue.x = inputValue.Get<Vector2>().x;
+        //moveInputValue.z = inputValue.Get<Vector2>().y;
     }
 
     private void OnSprint()
@@ -58,6 +47,28 @@ public class PlayerControls : MonoBehaviour
     private void OnSprintOff()
     {
         moveSpeedValue = speed;
+    }
+
+    private void OnShoot()
+    {
+        Debug.Log("sollte schieﬂen");
+        Aim();
+        GameObject tempProjektil = Instantiate(projektil, schieﬂpunkt.position, schieﬂpunkt.rotation);
+        tempProjektil.GetComponent<Rigidbody>().linearVelocity = schieﬂpunkt.forward * projektilGeschwindigkeit;
+    }
+
+    private void Aim()
+    {
+        float screenX = Screen.width / 2;
+        float screenY = Screen.height / 2;
+
+        RaycastHit hit;
+        Ray ray = camera.ScreenPointToRay(new Vector3(screenX, screenY));
+
+        if (Physics.Raycast(ray, out hit))
+        {
+            schieﬂpunkt.LookAt(hit.point);
+        }
     }
 
     /*
@@ -74,59 +85,94 @@ public class PlayerControls : MonoBehaviour
 
         if (result.magnitude >= 0.1f)
         {
-
-            float targetAngle = Mathf.Atan2(result.x, result.z) * Mathf.Rad2Deg + camera.eulerAngles.y;
+            //float targetAngle = Mathf.Atan2(result.x, result.z) * Mathf.Rad2Deg;
+            float targetAngle = Mathf.Atan2(result.x, result.z) * Mathf.Rad2Deg + camera.transform.eulerAngles.y;
             transform.rotation = Quaternion.Euler(0f, targetAngle, 0f);
 
             Vector3 moveDirection = Quaternion.Euler(0f, targetAngle, 0f) * Vector3.forward;
             controller.Move(moveDirection.normalized * (moveSpeedValue * Time.deltaTime));
-            //rb.linearVelocity = result;
         }
 
-        //rb.AddForce(moveInputValue * speed);
     }
 
-    
+
     /*
     private void LookLogicMethod()
     {
-        Vector3 result = lookInputValue * (rotateSpeed * Time.fixedDeltaTime);
-        Debug.Log(result);
-
         
-        //useless start
-        if (rotate.sqrMagnitude < 0.01)
-            return;
+        Vector3 result = moveInputValue.normalized;
 
-
-        m_Rotation.y += rotate.x * (rotateSpeed * Time.deltaTime);
-        m_Rotation.x = Mathf.Clamp(m_Rotation.x - rotate.y * scaledRotateSpeed, -89, 89);
-        transform.localEulerAngles = m_Rotation;
-        //useless end
-
-        cameraCylinder.GetComponent<Rigidbody>().angularVelocity = result;
-
-        //cameraCylinder.transform.localEulerAngles = result;
-
-        //useless start
-        Vector3 result = moveInputValue * (moveSpeedValue * Time.fixedDeltaTime);
-        rb.linearVelocity = result;
-        //useless end
-
-        //rb.AddForce(moveInputValue * speed);
+        if (result.magnitude >= 0.1f)
+        {
+            float targetAngle = Mathf.Atan2(result.x, result.z) * Mathf.Rad2Deg + camera.eulerAngles.y;
+            transform.rotation = Quaternion.Euler(0f, targetAngle, 0f);
+        }
     }
     */
+
 
     private void Update()
     {
         MoveLogicMethod();
         //LookLogicMethod();
+    }
+
+
+    private async void StartTest()
+    {
+        if (ubiiNode == null)
+        {
+            Debug.Log("UbiiClient not found");
+            return;
+        }
+
+        await ubiiNode.WaitForConnection();
+
+
+        ServiceReply reply = await ubiiNode.CallService(new ServiceRequest
+        {
+            Topic = UbiiConstants.Instance.DEFAULT_TOPICS.SERVICES.DEVICE_GET_LIST,
+            Device = new Ubii.Devices.Device
+
+            {
+                Name = "web-interface-smart-device",
+                Tags = { new Google.Protobuf.Collections.RepeatedField<string>() { "claw" } }, 
+                
+            }
+        });
+        Debug.Log(reply);
+
+
+        //reply.DeviceList.
+        
+
 
         /*
-        if (!isGrounded())
-            pushDown();
+        ServiceReply reply = await ubiiNode.CallService(new ServiceRequest
+        {
+            Topic = "/services/component/get_list",
+            ComponentList = new Ubii.Devices.ComponentList
+            {
+                Elements = {
+                    new Google.Protobuf.Collections.RepeatedField< Ubii.Devices.Component>(){
+                        new Ubii.Devices.Component {
+                            MessageFormat = "ubii.dataStructure.Vector3",
+                            Tags = { new Google.Protobuf.Collections.RepeatedField<string>(){"claw"}}
+                        }
+                    }
+                }
+            }
+        });
+        Debug.Log(reply);
         */
     }
+
+
+
+
+
+
+
 
     /*
 

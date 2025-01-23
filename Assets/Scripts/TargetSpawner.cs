@@ -26,9 +26,8 @@ public class TargetSpawner : MonoBehaviour
         offset.x += Random.Range(-8,9);
         offset.y += Random.Range(-3,4);
 
-
-        return getPlayerLocation().position + offset;
         Debug.Log("calculating new spawn position");
+        return getPlayerLocation().position + offset;
     }
     
 
@@ -41,8 +40,8 @@ public class TargetSpawner : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Debug.Log(getPlayerLocation().position.z);
-        Debug.Log(oldPlayerLocation.z + distanceToNextTarget);
+        //Debug.Log(getPlayerLocation().position.z);
+        //Debug.Log(oldPlayerLocation.z + distanceToNextTarget);
 
         if (getPlayerLocation().position.z >= oldPlayerLocation.z + distanceToNextTarget)
         {
