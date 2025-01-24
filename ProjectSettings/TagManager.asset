@@ -7,6 +7,7 @@ TagManager:
   - Obstacle
   - Target
   - Ziel
+  - Tower
   layers:
   - Default
   - TransparentFX

@@ -148,15 +148,15 @@ public class PlayerControls : MonoBehaviour
 
             {
                 Name = "web-interface-smart-device",
-                Tags = { new Google.Protobuf.Collections.RepeatedField<string>() { "claw" } }, 
-                
+                Tags = { new Google.Protobuf.Collections.RepeatedField<string>() { "claw" } },
+
             }
         });
         Debug.Log(reply);
 
 
         //reply.DeviceList.
-        
+
 
 
         /*
@@ -179,7 +179,21 @@ public class PlayerControls : MonoBehaviour
         */
     }
 
+    public void setSpeed(float wert, float wert2)
+    {
+        moveSpeedValue = wert;
+        sprintMultiplier = wert2;
+    }
 
+    public float getSpeed()
+    {
+        return speed;
+    }
+
+    public float getSprintMultiplier()
+    {
+        return sprintMultiplier;
+    }
 
 
 

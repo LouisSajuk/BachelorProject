@@ -11,7 +11,7 @@ public class TargetSpawner : MonoBehaviour
     void setOldPlayerLocation()
     {
         oldPlayerLocation = Player.transform.position;
-        Debug.Log("this is the new checked position = " + oldPlayerLocation.z);
+        //Debug.Log("this is the new checked position = " + oldPlayerLocation.z);
     }
 
     Transform getPlayerLocation()
@@ -26,7 +26,7 @@ public class TargetSpawner : MonoBehaviour
         offset.x += Random.Range(-8,9);
         offset.y += Random.Range(-3,4);
 
-        Debug.Log("calculating new spawn position");
+        //Debug.Log("calculating new spawn position");
         return getPlayerLocation().position + offset;
     }
     
@@ -45,7 +45,7 @@ public class TargetSpawner : MonoBehaviour
 
         if (getPlayerLocation().position.z >= oldPlayerLocation.z + distanceToNextTarget)
         {
-            Debug.Log("target should be spawing");
+            //Debug.Log("target should be spawing");
 
             setOldPlayerLocation();
 
