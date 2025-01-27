@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 3551930479086661020}
   - component: {fileID: -5617359698289236730}
   - component: {fileID: 3958457608265574592}
+  - component: {fileID: 6964030190577853743}
   m_Layer: 0
   m_Name: Boulder2
   m_TagString: Obstacle
@@ -152,3 +153,24 @@ CapsuleCollider:
   m_Height: 1
   m_Direction: 1
   m_Center: {x: 0, y: 0.5, z: 0}
+--- !u!135 &6964030190577853743
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4479384285822290947}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Radius: 0.26
+  m_Center: {x: 0, y: 0.1, z: 0}

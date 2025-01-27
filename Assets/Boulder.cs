@@ -28,5 +28,18 @@ public class Boulder : MonoBehaviour
         }
     }
 
+    private void OnTriggerEnter(Collider collision)
+    {
+        if (collision.gameObject.CompareTag("Player"))
+        {
+            Debug.Log("Ouch by Boulder!!!");
+            collision.gameObject.GetComponent<PlayerControls>().ouch();
+
+
+            GameObject.Destroy(feld);
+            GameObject.Destroy(gameObject);
+        }
+    }
+
     public bool IsFlying() {  return isFLying; }
 }

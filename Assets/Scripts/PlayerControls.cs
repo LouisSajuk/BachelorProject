@@ -1,12 +1,16 @@
 using Ubii.Services;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using System.Collections;
 using UnityEngine.UIElements;
 
 public class PlayerControls : MonoBehaviour
 {
     [SerializeField] private CharacterController controller;
     [SerializeField] private Camera camera;
+    [SerializeField] private Material playerMaterial;
+    [SerializeField] private Material backupMaterial;
+    private Color playerColor;
 
     [SerializeField] private float speed;
     [SerializeField] private float sprintMultiplier;
@@ -14,12 +18,20 @@ public class PlayerControls : MonoBehaviour
     [SerializeField] private Transform schieﬂpunkt;
     [SerializeField] private GameObject projektil;
     [SerializeField] private int projektilGeschwindigkeit;
+    private LineRenderer lineRenderer;
 
     [SerializeField] private UbiiNode ubiiNode;
 
     private Vector3 moveInputValue;
     private Vector3 lookInputValue;
     private float moveSpeedValue;
+
+    private bool canInteract;
+    private int hitPoints;
+    private IEnumerator coroutine;
+    private float timer;
+    private float colorDuration;
+    private bool shouldChangeColor;
 
     [SerializeField] private float fireRate;
     private float fireRateTimeStamp;
@@ -28,13 +40,29 @@ public class PlayerControls : MonoBehaviour
     {
         moveSpeedValue = speed;
         fireRateTimeStamp = 0;
+        canInteract = true;
+        hitPoints = 0;
+        playerColor = backupMaterial.color;
+        playerMaterial.color = backupMaterial.color;
+        timer = 0;
+        colorDuration = 1.2f;
+        shouldChangeColor = false;
+        lineRenderer = GetComponent<LineRenderer>();
+
         StartTest();
     }
 
     private void OnMove(InputValue inputValue)
     {
-        moveInputValue.x = inputValue.Get<Vector2>().x;
-        moveInputValue.z = inputValue.Get<Vector2>().y;
+        if (canInteract)
+        {
+            moveInputValue.x = inputValue.Get<Vector2>().x;
+            moveInputValue.z = inputValue.Get<Vector2>().y;
+        }
+        else
+        {
+            moveInputValue = Vector3.zero;
+        }
     }
 
     private void OnLook(InputValue inputValue)
@@ -55,17 +83,47 @@ public class PlayerControls : MonoBehaviour
 
     private void OnShoot()
     {
-        if (Time.time > fireRateTimeStamp)
+        if (canInteract)
         {
+            if (Time.time > fireRateTimeStamp)
+            {
+                lineRenderer.SetPosition(0, schieﬂpunkt.position);
 
-            //Debug.Log("sollte schieﬂen");
-            Aim();
-            GameObject tempProjektil = Instantiate(projektil, schieﬂpunkt.position, schieﬂpunkt.rotation);
-            tempProjektil.GetComponent<Rigidbody>().linearVelocity = schieﬂpunkt.forward * projektilGeschwindigkeit;
+                float screenX = Screen.width / 2;
+                float screenY = Screen.height / 2;
 
-            fireRateTimeStamp = Time.time + fireRate;
+                RaycastHit hit;
+                Ray ray = camera.ScreenPointToRay(new Vector3(screenX, screenY));
+
+                if (Physics.Raycast(ray, out hit))
+                {
+                    lineRenderer.SetPosition(1, hit.point);
+                }
+                else
+                {
+                    lineRenderer.SetPosition(1, ray.origin + (camera.transform.forward * 50));
+                }
+                StartCoroutine(ShootLaser());
+
+                /*
+                //Debug.Log("sollte schieﬂen");
+                //Aim();
+                //GameObject tempProjektil = Instantiate(projektil, schieﬂpunkt.position, schieﬂpunkt.rotation);
+                //tempProjektil.GetComponent<Rigidbody>().linearVelocity = schieﬂpunkt.forward * projektilGeschwindigkeit;
+                */
+
+                fireRateTimeStamp = Time.time + fireRate;
+            }
         }
     }
+
+    private IEnumerator ShootLaser()
+    {
+        lineRenderer.enabled = true;
+        yield return new WaitForSeconds(0.5f);
+        lineRenderer.enabled = false;
+    }
+
 
     private void Aim()
     {
@@ -127,6 +185,16 @@ public class PlayerControls : MonoBehaviour
     {
         MoveLogicMethod();
         //LookLogicMethod();
+
+        if (shouldChangeColor)
+        {
+            playerMaterial.color = Color.Lerp(Color.red, playerColor, timer);
+            if (timer < 1.2f)
+            {
+                timer += Time.deltaTime / colorDuration;
+            }
+        }
+
     }
 
 
@@ -179,6 +247,7 @@ public class PlayerControls : MonoBehaviour
         */
     }
 
+    /*
     public void setSpeed(float wert, float wert2)
     {
         moveSpeedValue = wert;
@@ -194,8 +263,35 @@ public class PlayerControls : MonoBehaviour
     {
         return sprintMultiplier;
     }
+    */
 
+    public void setInteract(bool interact)
+    {
+        canInteract = interact;
+    }
 
+    public void ouch()
+    {
+        setInteract(false);
+        hitPoints++;
+        playerMaterial.color = Color.red;
+        timer = 0;
+        shouldChangeColor = true;
+
+        Debug.Log(hitPoints);
+
+        coroutine = changeColor();
+        StartCoroutine(coroutine);
+    }
+
+    private IEnumerator changeColor()
+    {
+        yield return new WaitForSeconds(1.2f);
+        shouldChangeColor = false;
+        setInteract(true);
+
+        //playerMaterial.color = Color.Lerp(Color.red, playerColor, 2f);
+    }
 
 
 

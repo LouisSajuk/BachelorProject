@@ -4,7 +4,9 @@ using UnityEngine;
 public class Obstacle : MonoBehaviour
 {
     [SerializeField] private int speed;
-    private GameObject Player;
+    //private GameObject Player;
+    private PlayerControls PlayerControls;
+    //private Rigidbody rg;
     private IEnumerator coroutine;
     private float playerSpeed;
     private float playerSprintMultiplier;
@@ -12,10 +14,11 @@ public class Obstacle : MonoBehaviour
 
     private void Start()
     {
-        Player = GameObject.FindWithTag("Player");
-        playerSpeed = Player.GetComponent<PlayerControls>().getSpeed();
-        playerSprintMultiplier = Player.GetComponent<PlayerControls>().getSprintMultiplier();
-        coroutine = stopMovement();
+        PlayerControls = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerControls>();
+        //playerSpeed = PlayerControls.getSpeed();
+        //playerSprintMultiplier = PlayerControls.getSprintMultiplier();
+
+        //coroutine = stopMovement();
     }
 
     void Update()
@@ -27,11 +30,18 @@ public class Obstacle : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Player"))
         {
-            Player.GetComponent<PlayerControls>().setSpeed(0, 0);
-            StartCoroutine(coroutine);
+            //rg.constraints = RigidbodyConstraints.FreezeAll;
 
-            Debug.Log(playerSpeed);
-            Debug.Log(playerSprintMultiplier);
+            //coroutine = stopMovement();
+            //PlayerControls.setSpeed(0, 0);
+            //PlayerControls.setMovable(false);
+
+            Debug.Log("Ouch by Obstacle!!!");
+            PlayerControls.ouch();
+            //StartCoroutine(coroutine);
+
+            //Debug.Log(playerSpeed);
+            //Debug.Log(playerSprintMultiplier);
         }
         else if (collision.gameObject.CompareTag("Obstacle"))
         {
@@ -44,11 +54,15 @@ public class Obstacle : MonoBehaviour
         }
     }
 
+    /*
     private IEnumerator stopMovement()
     {
         Debug.Log("Should not move for 2 Seconds");
-        yield return new WaitForSeconds(2f);
-        Player.GetComponent<PlayerControls>().setSpeed(playerSpeed, playerSprintMultiplier);
+        yield return new WaitForSeconds(1.2f);
 
+        //rg.constraints = RigidbodyConstraints.None;
+        //PlayerControls.setMovable(true);   
+        //PlayerControls.setSpeed(playerSpeed, playerSprintMultiplier);
     }
+    */
 }
