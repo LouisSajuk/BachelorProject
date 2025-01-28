@@ -87,7 +87,7 @@ public class World_Generator : MonoBehaviour
 
                     currentMaze[counter] = zweiteRichtung;
 
-                    Debug.Log(currentMaze[counter]);
+                    //Debug.Log(currentMaze[counter]);
 
                     counter++;
                 }
@@ -102,7 +102,7 @@ public class World_Generator : MonoBehaviour
 
                     currentMaze[counter] = zweiteRichtung;
 
-                    Debug.Log(currentMaze[counter]);
+                    //Debug.Log(currentMaze[counter]);
 
                     counter++;
                 }
@@ -121,7 +121,7 @@ public class World_Generator : MonoBehaviour
 
                         currentMaze[counter] = zweiteRichtung;
 
-                        Debug.Log(currentMaze[counter]);
+                        //Debug.Log(currentMaze[counter]);
 
                         counter++;
                     }
@@ -136,7 +136,7 @@ public class World_Generator : MonoBehaviour
 
                         currentMaze[counter] = zweiteRichtung;
 
-                        Debug.Log(currentMaze[counter]);
+                        //Debug.Log(currentMaze[counter]);
 
                         counter++;
                     }
@@ -158,10 +158,10 @@ public class World_Generator : MonoBehaviour
 
         spawnFinish();
 
-        Debug.Log("jetzt das current Maze:");
+        //Debug.Log("jetzt das current Maze:");
         for (int i = 0; i < 12; i++)
         {
-            Debug.Log(currentMaze[i]);
+            //Debug.Log(currentMaze[i]);
         }
     }
 
@@ -171,7 +171,7 @@ public class World_Generator : MonoBehaviour
         {
             if (currentMaze[i] != wrongMaze1[i])
             {
-                Debug.Log("false - ist nicht Maze1!");
+                //Debug.Log("false - ist nicht Maze1!");
                 return false;
             }
         }
@@ -186,7 +186,7 @@ public class World_Generator : MonoBehaviour
         {
             if (currentMaze[i] != wrongMaze2[i])
             {
-                Debug.Log("false - ist nicht Maze2!");
+                //Debug.Log("false - ist nicht Maze2!");
                 return false;
             }
         }
@@ -200,7 +200,7 @@ public class World_Generator : MonoBehaviour
         {
             if (currentMaze[i] != wrongMaze3[i])
             {
-                Debug.Log("false - ist nicht Maze3!");
+                //Debug.Log("false - ist nicht Maze3!");
                 return false;
             }
         }
@@ -214,7 +214,7 @@ public class World_Generator : MonoBehaviour
         {
             if (currentMaze[i] != wrongMaze4[i])
             {
-                Debug.Log("false - ist nicht Maze4!");
+                //Debug.Log("false - ist nicht Maze4!");
                 return false;
             }
         }
@@ -228,7 +228,7 @@ public class World_Generator : MonoBehaviour
         {
             if (currentMaze[i] != wrongMaze5[i])
             {
-                Debug.Log("false - ist nicht Maze5!");
+                //Debug.Log("false - ist nicht Maze5!");
                 return false;
             }
         }
@@ -242,7 +242,7 @@ public class World_Generator : MonoBehaviour
         {
             if (currentMaze[i] != wrongMaze6[i])
             {
-                Debug.Log("false - ist nicht Maze6!");
+                //Debug.Log("false - ist nicht Maze6!");
                 return false;
             }
         }
@@ -256,7 +256,7 @@ public class World_Generator : MonoBehaviour
         {
             if (currentMaze[i] != wrongMaze7[i])
             {
-                Debug.Log("false - ist nicht Maze7!");
+                //Debug.Log("false - ist nicht Maze7!");
                 return false;
             }
         }
@@ -270,7 +270,7 @@ public class World_Generator : MonoBehaviour
         {
             if (currentMaze[i] != wrongMaze8[i])
             {
-                Debug.Log("false - ist nicht Maze8!");
+                //Debug.Log("false - ist nicht Maze8!");
                 return false;
             }
         }
@@ -284,7 +284,7 @@ public class World_Generator : MonoBehaviour
         {
             if (currentMaze[i] != wrongMaze9[i])
             {
-                Debug.Log("false - ist nicht Maze9!");
+                //Debug.Log("false - ist nicht Maze9!");
                 return false;
             }
         }
@@ -298,7 +298,7 @@ public class World_Generator : MonoBehaviour
         {
             if (currentMaze[i] != wrongMaze10[i])
             {
-                Debug.Log("false - ist nicht Maze10!");
+                //Debug.Log("false - ist nicht Maze10!");
                 return false;
             }
         }
@@ -312,7 +312,7 @@ public class World_Generator : MonoBehaviour
         {
             if (currentMaze[i] != wrongMaze11[i])
             {
-                Debug.Log("false - ist nicht Maze11!");
+                //Debug.Log("false - ist nicht Maze11!");
                 return false;
             }
         }
@@ -326,7 +326,7 @@ public class World_Generator : MonoBehaviour
         {
             if (currentMaze[i] != wrongMaze12[i])
             {
-                Debug.Log("false - ist nicht Maze12!");
+                //Debug.Log("false - ist nicht Maze12!");
                 return false;
             }
         }
@@ -360,28 +360,28 @@ public class World_Generator : MonoBehaviour
         {
             temp = Instantiate(CrosswayNachRechts, Knuepfpunkt.position, Quaternion.identity);
             Knuepfpunkt = temp.transform.GetChild(0);
-            Instantiate(Deadend, temp.transform.GetChild(1).position, Quaternion.Euler(0, 270, 0));
+            generatedObjects.Add(Instantiate(Deadend, temp.transform.GetChild(1).position, Quaternion.Euler(0, 270, 0)));
             generatedObjects.Add(temp);
         }
         else if (Richtung == 2)
         {
             temp = Instantiate(CrosswayNachRechts, Knuepfpunkt.position, Quaternion.Euler(0, 90, 0));
             Knuepfpunkt = temp.transform.GetChild(0);
-            Instantiate(Deadend, temp.transform.GetChild(1).position, Quaternion.identity);
+            generatedObjects.Add(Instantiate(Deadend, temp.transform.GetChild(1).position, Quaternion.identity));
             generatedObjects.Add(temp);
         }
         else if (Richtung == 3)
         {
             temp = Instantiate(CrosswayNachRechts, Knuepfpunkt.position, Quaternion.Euler(0, 180, 0));
             Knuepfpunkt = temp.transform.GetChild(0);
-            Instantiate(Deadend, temp.transform.GetChild(1).position, Quaternion.Euler(0, 90, 0));
+            generatedObjects.Add(Instantiate(Deadend, temp.transform.GetChild(1).position, Quaternion.Euler(0, 90, 0)));
             generatedObjects.Add(temp);
         }
         else if (Richtung == 4)
         {
             temp = Instantiate(CrosswayNachRechts, Knuepfpunkt.position, Quaternion.Euler(0, 270, 0));
             Knuepfpunkt = temp.transform.GetChild(0);
-            Instantiate(Deadend, temp.transform.GetChild(1).position, Quaternion.Euler(0, 180, 0));
+            generatedObjects.Add(Instantiate(Deadend, temp.transform.GetChild(1).position, Quaternion.Euler(0, 180, 0)));
             generatedObjects.Add(temp);
         }
         else
@@ -397,28 +397,28 @@ public class World_Generator : MonoBehaviour
         {
             temp = Instantiate(CrosswayNachLinks, Knuepfpunkt.position, Quaternion.identity);
             Knuepfpunkt = temp.transform.GetChild(0);
-            Instantiate(Deadend, temp.transform.GetChild(1).position, Quaternion.Euler(0, -270, 0));
+            generatedObjects.Add(Instantiate(Deadend, temp.transform.GetChild(1).position, Quaternion.Euler(0, -270, 0)));
             generatedObjects.Add(temp);
         }
         else if (Richtung == 2)
         {
             temp = Instantiate(CrosswayNachLinks, Knuepfpunkt.position, Quaternion.Euler(0, 90, 0));
             Knuepfpunkt = temp.transform.GetChild(0);
-            Instantiate(Deadend, temp.transform.GetChild(1).position, Quaternion.Euler(0, -180, 0));
+            generatedObjects.Add(Instantiate(Deadend, temp.transform.GetChild(1).position, Quaternion.Euler(0, -180, 0)));
             generatedObjects.Add(temp);
         }
         else if (Richtung == 3)
         {
             temp = Instantiate(CrosswayNachLinks, Knuepfpunkt.position, Quaternion.Euler(0, 180, 0));
             Knuepfpunkt = temp.transform.GetChild(0);
-            Instantiate(Deadend, temp.transform.GetChild(1).position, Quaternion.Euler(0, -90, 0));
+            generatedObjects.Add(Instantiate(Deadend, temp.transform.GetChild(1).position, Quaternion.Euler(0, -90, 0)));
             generatedObjects.Add(temp);
         }
         else if (Richtung == 4)
         {
             temp = Instantiate(CrosswayNachLinks, Knuepfpunkt.position, Quaternion.Euler(0, 270, 0));
             Knuepfpunkt = temp.transform.GetChild(0);
-            Instantiate(Deadend, temp.transform.GetChild(1).position, Quaternion.identity);
+            generatedObjects.Add(Instantiate(Deadend, temp.transform.GetChild(1).position, Quaternion.identity));
             generatedObjects.Add(temp);
         }
         else

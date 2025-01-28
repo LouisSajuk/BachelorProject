@@ -98,12 +98,25 @@ public class PlayerControls : MonoBehaviour
                 if (Physics.Raycast(ray, out hit))
                 {
                     lineRenderer.SetPosition(1, hit.point);
+                    if (hit.collider.CompareTag("Target"))
+                    {
+
+                        //Debug.Log(collision.gameObject.tag + " getroffen!!!");
+                        Destroy(hit.collider.gameObject);
+                        GameObject.FindWithTag("Ziel").GetComponent<Portal>().incrementCount();
+
+                    }
+                    else if (hit.collider.CompareTag("Tower"))
+                    {
+                        hit.collider.gameObject.GetComponent<Tower>().decreaseHealth();
+                    }
                 }
                 else
                 {
                     lineRenderer.SetPosition(1, ray.origin + (camera.transform.forward * 50));
                 }
                 StartCoroutine(ShootLaser());
+
 
                 /*
                 //Debug.Log("sollte schieﬂen");
@@ -120,7 +133,7 @@ public class PlayerControls : MonoBehaviour
     private IEnumerator ShootLaser()
     {
         lineRenderer.enabled = true;
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(0.2f);
         lineRenderer.enabled = false;
     }
 

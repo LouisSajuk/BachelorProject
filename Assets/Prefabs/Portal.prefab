@@ -29,8 +29,8 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 4091775729029717333}
   - {fileID: 6063283732212749405}
+  - {fileID: 4091775729029717333}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &3688795378111278099
@@ -154,6 +154,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 13796e7eeab83274e85dc27b4a9d517d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  steuerung: 0
 --- !u!1001 &4091775729030071729
 PrefabInstance:
   m_ObjectHideFlags: 0
