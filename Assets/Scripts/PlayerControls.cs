@@ -6,8 +6,8 @@ using UnityEngine.UIElements;
 
 public class PlayerControls : MonoBehaviour
 {
-    [SerializeField] private CharacterController controller;
-    [SerializeField] private Camera camera;
+    private CharacterController controller;
+    private Camera camera;
     [SerializeField] private Material playerMaterial;
     [SerializeField] private Material backupMaterial;
     private Color playerColor;
@@ -48,6 +48,8 @@ public class PlayerControls : MonoBehaviour
         colorDuration = 1.2f;
         shouldChangeColor = false;
         lineRenderer = GetComponent<LineRenderer>();
+        controller = GetComponent<CharacterController>();
+        camera = GameObject.Find("Main Camera").GetComponent<Camera>();
 
         StartTest();
     }

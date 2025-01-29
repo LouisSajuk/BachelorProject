@@ -4,12 +4,12 @@ using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
-
     private PlayerControls _playerControls;
     private PlayerInput _playerInput;
     private UbiiNode _node;
 
-    private Vector3 spawnLocation;
+    private bool firstStart = true;
+    private Vector3 spawnLocation = new Vector3(0, 0, -34);
 
     private int _steuerung;
     private int[] _reihenfolge;
@@ -56,28 +56,17 @@ public class GameManager : MonoBehaviour
 
         Debug.Log("Hello I am your personal GameManager!");
 
-        portals = new GameObject[4];
         SceneManager.activeSceneChanged += ChangedActiveScene;
     }
     #endregion
 
     void Start()
     {
+        //_node = GameObject.FindGameObjectWithTag("UbiiNode").GetComponent<UbiiNode>();
 
-
-        _node = GameObject.FindGameObjectWithTag("UbiiNode").GetComponent<UbiiNode>();
-        spawnLocation = new Vector3(0, 0, -34);
-        GameObject.FindGameObjectWithTag("Player").transform.Translate(spawnLocation);
-
+        portals = new GameObject[4];
         _steuerung = 1;
         _nextSteuerung = 0;
-
-        Debug.Log("Startet nächsten Gamemanager");
-    }
-
-    public void tester()
-    {
-        Debug.Log("Testet Anzahl Gamemanager");
     }
 
     public int Steuerung
@@ -123,16 +112,27 @@ public class GameManager : MonoBehaviour
 
     private void ChangedActiveScene(Scene current, Scene next)
     {
-        _playerControls = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerControls>();
-        _playerInput = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerInput>();
+        if (next.name != "Initializer")
+        {
+            _playerControls = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerControls>();
+            _playerInput = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerInput>();
+        }
 
         if (next.name == "StartingScene")
         {
+            if (firstStart)
+            {
+                firstStart = false;
+                GameObject.FindGameObjectWithTag("Player").transform.Translate(spawnLocation);
+            }
+
+
             portals[0] = GameObject.Find("Portal1").transform.GetChild(0).gameObject;
             portals[1] = GameObject.Find("Portal2").transform.GetChild(0).gameObject;
             portals[2] = GameObject.Find("Portal3").transform.GetChild(0).gameObject;
             portals[3] = GameObject.Find("Portal4").transform.GetChild(0).gameObject;
 
+            //nextSteuerung ist hier noch falsch, wird verbessert
             Debug.Log("Jetzt Portal Nummer : " + _nextSteuerung);
 
             portals[0].SetActive(false);
