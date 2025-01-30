@@ -1182,6 +1182,34 @@
                     "isPartOfComposite": false
                 }
             ]
+        },
+        {
+            "name": "MainMenu",
+            "id": "3ed85133-3ffd-4f71-b1e0-f130e6f645d9",
+            "actions": [
+                {
+                    "name": "Continue",
+                    "type": "Button",
+                    "id": "c9309938-f773-47e6-9084-023dbb013aa9",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "Press",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "1f3fde35-50ef-4f2b-a54b-c32deaf2f3e3",
+                    "path": "<Gamepad>/buttonSouth",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";Gamepad",
+                    "action": "Continue",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
         }
     ],
     "controlSchemes": [
