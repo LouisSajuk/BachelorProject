@@ -19,8 +19,11 @@ public class MainMenu : MonoBehaviour
         if (counter == 5)
             SceneManager.LoadScene("StartingScene");
 
+        Debug.Log("Counter = " + counter);
 
+        if(counter <= 4)
         pages[counter].SetActive(true);
+
         if (counter != 0)
             pages[counter - 1].SetActive(false);
         counter++;
