@@ -3,6 +3,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using System.Collections;
 using UnityEngine.UIElements;
+using Unity.VisualScripting;
 
 public class PlayerControls : MonoBehaviour
 {
@@ -210,6 +211,11 @@ public class PlayerControls : MonoBehaviour
             }
         }
 
+        if(transform.position.y != 0)
+        {
+            Vector3 newPos = new Vector3(transform.position.x, 1, transform.position.z);
+            transform.position = newPos;
+        }
     }
 
 

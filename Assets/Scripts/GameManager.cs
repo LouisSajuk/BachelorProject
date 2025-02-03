@@ -1,3 +1,6 @@
+using System;
+using TMPro;
+using TMPro.EditorUtilities;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
@@ -14,6 +17,12 @@ public class GameManager : MonoBehaviour
     private int _steuerung;
     private int[] _reihenfolge;
     private int _nextSteuerung;
+
+    private string firstName;
+    private string lastName;
+    private bool reihenfolgeGesetzt = false;
+    private String steuerungString;
+    private bool alleSteuerungenDurch = false;
 
     private GameObject[] portals;
     //[SerializeField] private GameObject portal1;
@@ -65,6 +74,7 @@ public class GameManager : MonoBehaviour
         //_node = GameObject.FindGameObjectWithTag("UbiiNode").GetComponent<UbiiNode>();
 
         portals = new GameObject[4];
+        _reihenfolge = new int[4];
         _steuerung = 1;
         _nextSteuerung = 0;
     }
@@ -89,18 +99,19 @@ public class GameManager : MonoBehaviour
 
     public int nextSteuerung()
     {
-        Debug.Log("Die vorherige Steuerung : " + _nextSteuerung);
+        Debug.Log("Die vorherige Steuerung : " + _reihenfolge[_nextSteuerung]);
 
         _nextSteuerung++;
 
         if (_nextSteuerung >= 4)
         {
             Debug.Log("Nächste Steuerung wieder 0 weil Error");
+            alleSteuerungenDurch = true;
             _nextSteuerung = 0;
         }
 
 
-        Debug.Log("Nächste Steuerung wurde erreicht : " + _nextSteuerung);
+        Debug.Log("Nächste Steuerung wurde erreicht : " + _reihenfolge[_nextSteuerung]);
 
         return _nextSteuerung;
     }
@@ -124,29 +135,111 @@ public class GameManager : MonoBehaviour
             {
                 firstStart = false;
                 GameObject.FindGameObjectWithTag("Player").transform.Translate(spawnLocation);
+
             }
 
+            changePlayerInput("Base");
+
+            Steuerung = _reihenfolge[_nextSteuerung];
+            Debug.Log("Derzeitige Steuerung : " + getSteuerungString());
 
             portals[0] = GameObject.Find("Portal1").transform.GetChild(0).gameObject;
             portals[1] = GameObject.Find("Portal2").transform.GetChild(0).gameObject;
             portals[2] = GameObject.Find("Portal3").transform.GetChild(0).gameObject;
             portals[3] = GameObject.Find("Portal4").transform.GetChild(0).gameObject;
 
-            //nextSteuerung ist hier noch falsch, wird verbessert
-            Debug.Log("Jetzt Portal Nummer : " + _nextSteuerung);
+            Debug.Log("Jetzt Portal Nummer : " + _reihenfolge[_nextSteuerung]);
 
             portals[0].SetActive(false);
             portals[1].SetActive(false);
             portals[2].SetActive(false);
             portals[3].SetActive(false);
 
-            portals[_nextSteuerung].SetActive(true);
+            if (alleSteuerungenDurch)
+            {
+                portals[0].SetActive(true);
+                portals[1].SetActive(true);
+                portals[2].SetActive(true);
+                portals[3].SetActive(true);
+            }
+            else
+            {
+                portals[_reihenfolge[_nextSteuerung] - 1].SetActive(true);
+            }
+            
+        }
+
+        if(next.name == "Level_1")
+        {
+            //_playerControls.inputMap = Steuerung;
+
         }
 
 
+        Debug.Log("Current Scene : " + next.name);
+    }
+
+    public void changePlayerInput(String map)
+    {
+        _playerInput.SwitchCurrentActionMap(map);
+    }
 
 
+    public void setFirstName(string name)
+    {
+        firstName = name;
+        Debug.Log("First Name : " + firstName);
+    }
 
-        Debug.Log("Current Scene: " + next.name);
+    public void setLastName(string name)
+    {
+        lastName = name;
+        Debug.Log("Last Name : " + lastName);
+    }
+
+    public void setReihenfolge(string reihenfolge)
+    {
+        if (reihenfolge.Length == 4)
+        {
+            char[] charfolge = reihenfolge.ToCharArray();
+
+            _reihenfolge = Array.ConvertAll(charfolge, c => (int)Char.GetNumericValue(c));
+
+            reihenfolgeGesetzt = true;
+        }
+    }
+
+    public bool reihenfolgeIstGesetzt()
+    {
+        return reihenfolgeGesetzt;
+    }
+
+    public void writeReihenfolge()
+    {
+        for (int i = 0; i < _reihenfolge.Length; i++)
+        {
+            Debug.Log(_reihenfolge[i]);
+        }
+    }
+
+    private String getSteuerungString()
+    {
+        if(Steuerung == 1)
+        {
+            steuerungString = "Claw Grip";
+        }
+        else if (Steuerung == 2)
+        {
+            steuerungString = "Fußpedal";
+        }
+        else if (Steuerung == 3)
+        {
+            steuerungString = "BackButtons";
+        }
+        else if (Steuerung == 4)
+        {
+            steuerungString = "Tilt Controls";
+        }
+        return steuerungString;
     }
 }

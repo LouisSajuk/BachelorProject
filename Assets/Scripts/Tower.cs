@@ -36,7 +36,6 @@ public class Tower : MonoBehaviour
 
         if (health == 0){
             Debug.Log("Should go back to StartingLevel");
-            Debug.Log("Current Steuerung : " + gameManager.getSteuerung());
             gameManager.nextSteuerung();
             SceneManager.LoadScene("StartingScene");
         }

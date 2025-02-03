@@ -7,12 +7,12 @@ public class Portal : MonoBehaviour
     private Scene scene;
     private int targetCount;
     [SerializeField] int steuerung;
-    private GameManager gameManager;
+    //private GameManager gameManager;
     private void Start()
     {
         targetCount = 0;
         scene = SceneManager.GetActiveScene();
-        gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
+        //gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
     }
 
     //Steuerungen:
@@ -27,6 +27,7 @@ public class Portal : MonoBehaviour
         {
             if (scene.name == "StartingScene")
             {
+                GameManager.Instance.Steuerung = steuerung;
                 SceneManager.LoadScene("Level_1");
             }
             else if (scene.name == "Level_1")

@@ -522,11 +522,11 @@ CharacterController:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Height: 2
+  m_Height: 1.9
   m_Radius: 0.5
   m_SlopeLimit: 45
   m_StepOffset: 0.3
-  m_SkinWidth: 0.08
+  m_SkinWidth: 0.05
   m_MinMoveDistance: 0.001
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &4559402994588390071
@@ -541,8 +541,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 70bc0714e519ab940b8e97e8758602db, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  controller: {fileID: 9196486820462449685}
-  camera: {fileID: 0}
   playerMaterial: {fileID: 2100000, guid: 42bb58216cb45564180ecd4ea2da24a8, type: 2}
   backupMaterial: {fileID: 2100000, guid: 632ed85a1e9bd7448b2d920d6f4ff3b2, type: 2}
   speed: 7

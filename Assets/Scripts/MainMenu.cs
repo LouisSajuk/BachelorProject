@@ -16,17 +16,25 @@ public class MainMenu : MonoBehaviour
 
     private void OnContinue()
     {
-        if (counter == 5)
+        if (counter == 5 && GameManager.Instance.reihenfolgeIstGesetzt())
+        {
             SceneManager.LoadScene("StartingScene");
+        }
+        else if (counter == 5)
+        {
 
-        Debug.Log("Counter = " + counter);
+        }
+        else
+        {
 
-        if(counter <= 4)
-        pages[counter].SetActive(true);
+            Debug.Log("Counter = " + counter);
 
-        if (counter != 0)
-            pages[counter - 1].SetActive(false);
-        counter++;
+            if (counter <= 4)
+                pages[counter].SetActive(true);
 
+            if (counter != 0)
+                pages[counter - 1].SetActive(false);
+            counter++;
+        }
     }
 }
