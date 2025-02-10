@@ -16,6 +16,7 @@ public class MainMenu : MonoBehaviour
 
     private void OnContinue()
     {
+
         if (counter == 5 && GameManager.Instance.reihenfolgeIstGesetzt())
         {
             SceneManager.LoadScene("StartingScene");
@@ -27,7 +28,7 @@ public class MainMenu : MonoBehaviour
         else
         {
 
-            Debug.Log("Counter = " + counter);
+            //Debug.Log("Counter = " + counter);
 
             if (counter <= 4)
                 pages[counter].SetActive(true);

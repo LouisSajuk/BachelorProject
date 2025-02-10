@@ -9,6 +9,7 @@ public class PlayerControls : MonoBehaviour
 {
     private CharacterController controller;
     private Camera camera;
+    private PlayerInput input;
     [SerializeField] private Material playerMaterial;
     [SerializeField] private Material backupMaterial;
     private Color playerColor;
@@ -21,8 +22,6 @@ public class PlayerControls : MonoBehaviour
     [SerializeField] private int projektilGeschwindigkeit;
     private LineRenderer lineRenderer;
 
-    [SerializeField] private UbiiNode ubiiNode;
-
     private Vector3 moveInputValue;
     private Vector3 lookInputValue;
     private float moveSpeedValue;
@@ -34,6 +33,8 @@ public class PlayerControls : MonoBehaviour
     private float colorDuration;
     private bool shouldChangeColor;
 
+    [SerializeField] private AudioClip ouchSound;
+    [SerializeField] private AudioClip laserSound;
     [SerializeField] private float fireRate;
     private float fireRateTimeStamp;
 
@@ -50,12 +51,24 @@ public class PlayerControls : MonoBehaviour
         shouldChangeColor = false;
         lineRenderer = GetComponent<LineRenderer>();
         controller = GetComponent<CharacterController>();
+        input = GetComponent<PlayerInput>();
         camera = GameObject.Find("Main Camera").GetComponent<Camera>();
 
-        StartTest();
     }
 
     private void OnMove(InputValue inputValue)
+    {
+        if (canInteract)
+        {
+            moveInputValue.x = inputValue.Get<Vector2>().x;
+            moveInputValue.z = inputValue.Get<Vector2>().y;
+        }
+        else
+        {
+            moveInputValue = Vector3.zero;
+        }
+    }
+    private void OnMoveFoot(InputValue inputValue)
     {
         if (canInteract)
         {
@@ -83,8 +96,67 @@ public class PlayerControls : MonoBehaviour
     {
         moveSpeedValue = speed;
     }
+    private void OnSprintFoot()
+    {
+        Debug.Log("Sprinting because Footpedal");
+        moveSpeedValue = speed * sprintMultiplier;
+    }
+
+    private void OnSprintOffFoot()
+    {
+        moveSpeedValue = speed;
+    }
 
     private void OnShoot()
+    {
+        if (canInteract)
+        {
+            if (Time.time > fireRateTimeStamp)
+            {
+                lineRenderer.SetPosition(0, schieﬂpunkt.position);
+
+                float screenX = Screen.width / 2;
+                float screenY = Screen.height / 2;
+
+                RaycastHit hit;
+                Ray ray = camera.ScreenPointToRay(new Vector3(screenX, screenY));
+
+                if (Physics.Raycast(ray, out hit))
+                {
+                    lineRenderer.SetPosition(1, hit.point);
+                    if (hit.collider.CompareTag("Target"))
+                    {
+
+                        //Debug.Log(collision.gameObject.tag + " getroffen!!!");
+                        Destroy(hit.collider.gameObject);
+                        GameObject.FindWithTag("Ziel").GetComponent<Portal>().incrementCount();
+
+                    }
+                    else if (hit.collider.CompareTag("Tower"))
+                    {
+                        hit.collider.gameObject.GetComponent<Tower>().decreaseHealth();
+                    }
+                }
+                else
+                {
+                    lineRenderer.SetPosition(1, ray.origin + (camera.transform.forward * 50));
+                }
+                StartCoroutine(ShootLaser());
+
+                SoundManager.instance.PlaySoundClip(laserSound, schieﬂpunkt, 1f);
+
+                /*
+                //Debug.Log("sollte schieﬂen");
+                //Aim();
+                //GameObject tempProjektil = Instantiate(projektil, schieﬂpunkt.position, schieﬂpunkt.rotation);
+                //tempProjektil.GetComponent<Rigidbody>().linearVelocity = schieﬂpunkt.forward * projektilGeschwindigkeit;
+                */
+
+                fireRateTimeStamp = Time.time + fireRate;
+            }
+        }
+    }
+    private void OnShootFoot()
     {
         if (canInteract)
         {
@@ -218,7 +290,7 @@ public class PlayerControls : MonoBehaviour
         }
     }
 
-
+    /*
     private async void StartTest()
     {
         if (ubiiNode == null)
@@ -248,8 +320,7 @@ public class PlayerControls : MonoBehaviour
 
 
 
-        /*
-        ServiceReply reply = await ubiiNode.CallService(new ServiceRequest
+        reply = await ubiiNode.CallService(new ServiceRequest
         {
             Topic = "/services/component/get_list",
             ComponentList = new Ubii.Devices.ComponentList
@@ -265,8 +336,9 @@ public class PlayerControls : MonoBehaviour
             }
         });
         Debug.Log(reply);
-        */
+        
     }
+    */
 
     /*
     public void setSpeed(float wert, float wert2)
@@ -300,6 +372,8 @@ public class PlayerControls : MonoBehaviour
         shouldChangeColor = true;
 
         Debug.Log(hitPoints);
+
+        SoundManager.instance.PlaySoundClip(ouchSound, schieﬂpunkt, 1f);
 
         coroutine = changeColor();
         StartCoroutine(coroutine);

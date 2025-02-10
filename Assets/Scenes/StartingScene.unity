@@ -21820,6 +21820,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 90b78eed6e4d6784cb9b9dc56ca2466f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ubiiNode: {fileID: 0}
 --- !u!4 &1513251430
 Transform:
   m_ObjectHideFlags: 0
@@ -22422,7 +22423,7 @@ MonoBehaviour:
       Owner: {fileID: 1546704257}
       Enabled: 1
       Input:
-        InputAction: {fileID: -3994390906314028645, guid: 052faaac586de48259a63d0c4782560b, type: 3}
+        InputAction: {fileID: -3994390906314028645, guid: 092c2b765dfbd2640a0eec1385d0f36b, type: 3}
         Gain: 1
         LegacyInput: Horizontal
         LegacyGain: 200
@@ -22435,7 +22436,7 @@ MonoBehaviour:
       Owner: {fileID: 1546704257}
       Enabled: 1
       Input:
-        InputAction: {fileID: -3994390906314028645, guid: 052faaac586de48259a63d0c4782560b, type: 3}
+        InputAction: {fileID: -3994390906314028645, guid: 092c2b765dfbd2640a0eec1385d0f36b, type: 3}
         Gain: -1
         LegacyInput: Vertical
         LegacyGain: -200
@@ -23318,18 +23319,6 @@ PrefabInstance:
     - target: {fileID: 1454230767600140725, guid: 137451843538d8544850bdaad56b967c, type: 3}
       propertyPath: m_Enabled
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1510812003002981492, guid: 137451843538d8544850bdaad56b967c, type: 3}
-      propertyPath: m_DefaultActionMap
-      value: Base
-      objectReference: {fileID: 0}
-    - target: {fileID: 1510812003002981492, guid: 137451843538d8544850bdaad56b967c, type: 3}
-      propertyPath: m_DefaultControlScheme
-      value: Gamepad
-      objectReference: {fileID: 0}
-    - target: {fileID: 1510812003002981492, guid: 137451843538d8544850bdaad56b967c, type: 3}
-      propertyPath: m_NeverAutoSwitchControlSchemes
-      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4015509980231298297, guid: 137451843538d8544850bdaad56b967c, type: 3}
       propertyPath: m_Enabled

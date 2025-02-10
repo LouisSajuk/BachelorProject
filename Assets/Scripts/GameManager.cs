@@ -1,6 +1,7 @@
 using System;
 using TMPro;
 using TMPro.EditorUtilities;
+using Ubii.Services;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
@@ -25,6 +26,7 @@ public class GameManager : MonoBehaviour
     private bool alleSteuerungenDurch = false;
 
     private GameObject[] portals;
+    [SerializeField] private UbiiNode ubiiNode;
     //[SerializeField] private GameObject portal1;
     //[SerializeField] private GameObject portal2;
     //[SerializeField] private GameObject portal3;
@@ -77,6 +79,55 @@ public class GameManager : MonoBehaviour
         _reihenfolge = new int[4];
         _steuerung = 1;
         _nextSteuerung = 0;
+
+        StartTest();
+    }
+
+    private async void StartTest()
+    {
+        if (ubiiNode == null)
+        {
+            Debug.Log("UbiiClient not found");
+            return;
+        }
+
+        await ubiiNode.WaitForConnection();
+
+
+        ServiceReply reply = await ubiiNode.CallService(new ServiceRequest
+        {
+            Topic = UbiiConstants.Instance.DEFAULT_TOPICS.SERVICES.DEVICE_GET_LIST,
+            Device = new Ubii.Devices.Device
+            {
+                Name = "web-interface-smart-device",
+                Tags = { new Google.Protobuf.Collections.RepeatedField<string>() { "claw" } },
+
+            }
+        });
+        Debug.Log(reply);
+
+
+        //reply.DeviceList.
+
+
+
+        reply = await ubiiNode.CallService(new ServiceRequest
+        {
+            Topic = "/services/component/get_list",
+            ComponentList = new Ubii.Devices.ComponentList
+            {
+                Elements = {
+                    new Google.Protobuf.Collections.RepeatedField< Ubii.Devices.Component>(){
+                        new Ubii.Devices.Component {
+                            MessageFormat = "ubii.dataStructure.Vector3",
+                            Tags = { new Google.Protobuf.Collections.RepeatedField<string>(){"claw"}}
+                        }
+                    }
+                }
+            }
+        });
+        Debug.Log(reply);
+
     }
 
     public int Steuerung
@@ -166,10 +217,10 @@ public class GameManager : MonoBehaviour
             {
                 portals[_reihenfolge[_nextSteuerung] - 1].SetActive(true);
             }
-            
+
         }
 
-        if(next.name == "Level_1")
+        if (next.name == "Level_1")
         {
             //_playerControls.inputMap = Steuerung;
 
@@ -224,7 +275,7 @@ public class GameManager : MonoBehaviour
 
     private String getSteuerungString()
     {
-        if(Steuerung == 1)
+        if (Steuerung == 1)
         {
             steuerungString = "Claw Grip";
         }

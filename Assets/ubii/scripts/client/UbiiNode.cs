@@ -8,6 +8,7 @@ using UnityEngine;
 using Ubii.Services;
 using Ubii.TopicData;
 using Ubii.Devices;
+using UnityEngine.SceneManagement;
 
 public class UbiiNode : MonoBehaviour, IUbiiNode
 {
@@ -66,6 +67,11 @@ public class UbiiNode : MonoBehaviour, IUbiiNode
     public string Name
     {
         get { return clientName; }
+    }
+
+    void Awake()
+    {
+        DontDestroyOnLoad(this.gameObject);
     }
 
     #region unity

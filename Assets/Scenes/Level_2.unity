@@ -718,7 +718,7 @@ MonoBehaviour:
       Owner: {fileID: 828088800}
       Enabled: 1
       Input:
-        InputAction: {fileID: -3994390906314028645, guid: 052faaac586de48259a63d0c4782560b, type: 3}
+        InputAction: {fileID: -3994390906314028645, guid: 092c2b765dfbd2640a0eec1385d0f36b, type: 3}
         Gain: 1
         LegacyInput: Horizontal
         LegacyGain: 200
@@ -731,7 +731,7 @@ MonoBehaviour:
       Owner: {fileID: 828088800}
       Enabled: 1
       Input:
-        InputAction: {fileID: -3994390906314028645, guid: 052faaac586de48259a63d0c4782560b, type: 3}
+        InputAction: {fileID: -3994390906314028645, guid: 092c2b765dfbd2640a0eec1385d0f36b, type: 3}
         Gain: -1
         LegacyInput: Vertical
         LegacyGain: -200
@@ -979,7 +979,7 @@ PrefabInstance:
       objectReference: {fileID: 362157797}
     - target: {fileID: 7569089613851181818, guid: 137451843538d8544850bdaad56b967c, type: 3}
       propertyPath: m_Name
-      value: Player (1)
+      value: Player
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
