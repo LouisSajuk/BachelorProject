@@ -1,7 +1,9 @@
 using System;
 using TMPro;
 using TMPro.EditorUtilities;
+using Ubii.Devices;
 using Ubii.Services;
+using Ubii.TopicData;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
@@ -27,6 +29,7 @@ public class GameManager : MonoBehaviour
 
     private GameObject[] portals;
     [SerializeField] private UbiiNode ubiiNode;
+    Vector3 handyOrientation = new Vector3();
     //[SerializeField] private GameObject portal1;
     //[SerializeField] private GameObject portal2;
     //[SerializeField] private GameObject portal3;
@@ -80,7 +83,66 @@ public class GameManager : MonoBehaviour
         _steuerung = 1;
         _nextSteuerung = 0;
 
-        StartTest();
+        //StartTest();
+        StartTest2();
+
+    }
+
+    private void Update()
+    {
+        Debug.Log(handyOrientation.ToString());        
+    }
+
+    private async void StartTest2()
+    {
+        await ubiiNode.WaitForConnection();
+        ServiceReply reply = await ubiiNode.CallService(new ServiceRequest
+        {
+            Topic = UbiiConstants.Instance.DEFAULT_TOPICS.SERVICES.DEVICE_GET_LIST,
+            Device = new Ubii.Devices.Device
+            {
+                Name = "web-interface-smart-device",
+                Tags = { new Google.Protobuf.Collections.RepeatedField<string>() { "claw" } },
+            }
+        });
+        Debug.Log("### DEVICES:");
+        foreach (Device device in reply.DeviceList.Elements)
+        {
+            Debug.Log(device);
+        }
+
+        if (reply.DeviceList.Elements.Count != 1)
+        {
+            Debug.LogError("More or less than one device with tag 'claw', aborting!");
+            return;
+        }
+
+        Device smartphone = reply.DeviceList.Elements[0];
+        reply = await ubiiNode.CallService(new ServiceRequest
+        {
+            Topic = "/services/component/get_list",
+            Component = new Ubii.Devices.Component
+            {
+                DeviceId = smartphone.Id,
+                Tags = { new Google.Protobuf.Collections.RepeatedField<string>() { "orientation" } },
+            }
+        });
+        Debug.Log("### COMPONENTS:");
+        foreach (Ubii.Devices.Component component in reply.ComponentList.Elements)
+        {
+            if (component.Tags.Contains("orientation"))
+            {
+                Debug.Log(component);
+                SubscriptionToken subTokenOrientation = await ubiiNode.SubscribeTopic(component.Topic, (TopicDataRecord record) =>
+                {
+                    //Debug.Log("### TOPIC:");
+                    //Debug.Log(record);
+                    handyOrientation = new Vector3((float)record.Vector3.X, (float)record.Vector3.Y, (float)record.Vector3.Z);
+                });
+
+                //await ubiiNode.Unsubscribe(subTokenOrientation);
+            }
+        }
     }
 
     private async void StartTest()
@@ -120,7 +182,7 @@ public class GameManager : MonoBehaviour
                     new Google.Protobuf.Collections.RepeatedField< Ubii.Devices.Component>(){
                         new Ubii.Devices.Component {
                             MessageFormat = "ubii.dataStructure.Vector3",
-                            Tags = { new Google.Protobuf.Collections.RepeatedField<string>(){"claw"}}
+                            Tags = { new Google.Protobuf.Collections.RepeatedField<string>(){ "orientation" } }
                         }
                     }
                 }
