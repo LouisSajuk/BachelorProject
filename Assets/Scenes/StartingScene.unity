@@ -8785,6 +8785,52 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 446930, guid: 77ad9661321c6e84280c8fbe32492c06, type: 3}
   m_PrefabInstance: {fileID: 467582738}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &525203098
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 525203100}
+  - component: {fileID: 525203099}
+  m_Layer: 0
+  m_Name: Connector
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &525203099
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 525203098}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: faa793219f45c8a40af1f9e6c85e3e41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  x_tilt: 0
+  y_tilt: 0
+--- !u!4 &525203100
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 525203098}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &531568160
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -22393,8 +22439,9 @@ GameObject:
   - component: {fileID: 1546704257}
   - component: {fileID: 1546704256}
   - component: {fileID: 1546704255}
-  - component: {fileID: 1546704254}
   - component: {fileID: 1546704260}
+  - component: {fileID: 1546704254}
+  - component: {fileID: 1546704262}
   m_Layer: 0
   m_Name: Third Person Camera
   m_TagString: Untagged
@@ -22409,7 +22456,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1546704253}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 89875cdc57c54474a8a74efd9b2a3b5d, type: 3}
   m_Name: 
@@ -22425,7 +22472,7 @@ MonoBehaviour:
       Input:
         InputAction: {fileID: -3994390906314028645, guid: 092c2b765dfbd2640a0eec1385d0f36b, type: 3}
         Gain: 1
-        LegacyInput: Horizontal
+        LegacyInput: 
         LegacyGain: 200
         CancelDeltaTime: 0
       InputValue: 0
@@ -22438,7 +22485,7 @@ MonoBehaviour:
       Input:
         InputAction: {fileID: -3994390906314028645, guid: 092c2b765dfbd2640a0eec1385d0f36b, type: 3}
         Gain: -1
-        LegacyInput: Vertical
+        LegacyInput: 
         LegacyGain: -200
         CancelDeltaTime: 0
       InputValue: 0
@@ -22665,6 +22712,53 @@ MonoBehaviour:
     NearLimit: 5
     FarLimit: 30
     MaxQualityBoost: 0.2
+--- !u!114 &1546704262
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1546704253}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 65e4868b6ee9e844e8c3efd289bd064d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ScanRecursively: 1
+  SuppressInputWhileBlending: 1
+  IgnoreTimeScale: 0
+  m_ControllerManager:
+    Controllers:
+    - Name: Look Orbit X
+      Owner: {fileID: 1546704257}
+      Enabled: 1
+      Input:
+        axis: Horizontal
+        connector: {fileID: 525203099}
+      InputValue: 0
+      Driver:
+        AccelTime: 0.2
+        DecelTime: 0.2
+    - Name: Look Orbit Y
+      Owner: {fileID: 1546704257}
+      Enabled: 1
+      Input:
+        axis: Vertical
+        connector: {fileID: 525203099}
+      InputValue: 0
+      Driver:
+        AccelTime: 0.2
+        DecelTime: 0.2
+    - Name: Orbit Scale
+      Owner: {fileID: 1546704257}
+      Enabled: 1
+      Input:
+        axis: 
+        connector: {fileID: 0}
+      InputValue: 0
+      Driver:
+        AccelTime: 0
+        DecelTime: 0
 --- !u!4 &1549450179 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 446930, guid: 77ad9661321c6e84280c8fbe32492c06, type: 3}
@@ -31214,3 +31308,4 @@ SceneRoots:
   - {fileID: 311370630}
   - {fileID: 2074819482}
   - {fileID: 1067219606}
+  - {fileID: 525203100}

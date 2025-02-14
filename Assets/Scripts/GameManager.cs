@@ -30,6 +30,11 @@ public class GameManager : MonoBehaviour
     private GameObject[] portals;
     [SerializeField] private UbiiNode ubiiNode;
     Vector3 handyOrientation = new Vector3();
+    Vector3 originOrientation = new Vector3();
+    Vector3 differenceOrientation = new Vector3();
+    private float x_tilt;
+    private float y_tilt;
+    private bool firstOrigin = true;
     //[SerializeField] private GameObject portal1;
     //[SerializeField] private GameObject portal2;
     //[SerializeField] private GameObject portal3;
@@ -88,9 +93,52 @@ public class GameManager : MonoBehaviour
 
     }
 
+    public float giveX_Tilt()
+    {
+        float value = originOrientation.y - handyOrientation.y;
+        if (Math.Abs(value) < 0.03f)
+            return 0;
+
+        if(value < 0)
+            //return (value - 0.1f) * -100;
+            return (float)((Math.Pow(value, 2f)) * 1000);
+
+        if (value > 0)
+            //return (value + 0.1f) * -100;
+            return (float)((Math.Pow(value, 2f)) * -1000);
+
+        return 0;
+    }
+    public float giveY_Tilt()
+    {
+        float value = originOrientation.z - handyOrientation.z;
+        if (Math.Abs(value) < 0.03f)
+            return 0;
+
+        if (value < 0)
+            //return (float)((Math.Pow(value, 3f) - 0.5f) * -80);
+            return (float)((Math.Pow(value, 2f)) * 1000);
+
+        if (value > 0)
+            //return (float)((Math.Pow(value, 3f) + 0.5f) * -80);
+            return (float)((Math.Pow(value, 2f)) * -1000);
+
+        return 0;
+    }
+
     private void Update()
     {
-        Debug.Log(handyOrientation.ToString());        
+        if (firstOrigin)
+        {
+            if (handyOrientation != Vector3.zero)
+            {
+                firstOrigin = false;
+                originOrientation = handyOrientation;
+            }
+        }
+
+        //Debug.Log(originOrientation.ToString());
+        //Debug.Log(handyOrientation.ToString());
     }
 
     private async void StartTest2()
@@ -105,11 +153,14 @@ public class GameManager : MonoBehaviour
                 Tags = { new Google.Protobuf.Collections.RepeatedField<string>() { "claw" } },
             }
         });
+
+        /*
         Debug.Log("### DEVICES:");
         foreach (Device device in reply.DeviceList.Elements)
         {
             Debug.Log(device);
         }
+        */
 
         if (reply.DeviceList.Elements.Count != 1)
         {
@@ -127,17 +178,17 @@ public class GameManager : MonoBehaviour
                 Tags = { new Google.Protobuf.Collections.RepeatedField<string>() { "orientation" } },
             }
         });
-        Debug.Log("### COMPONENTS:");
+        //Debug.Log("### COMPONENTS:");
         foreach (Ubii.Devices.Component component in reply.ComponentList.Elements)
         {
             if (component.Tags.Contains("orientation"))
             {
-                Debug.Log(component);
+                //Debug.Log(component);
                 SubscriptionToken subTokenOrientation = await ubiiNode.SubscribeTopic(component.Topic, (TopicDataRecord record) =>
                 {
                     //Debug.Log("### TOPIC:");
                     //Debug.Log(record);
-                    handyOrientation = new Vector3((float)record.Vector3.X, (float)record.Vector3.Y, (float)record.Vector3.Z);
+                    handyOrientation = new Vector3((float)record.Vector3.X, (float)record.Vector3.Y, (float)record.Vector3.Z).normalized;
                 });
 
                 //await ubiiNode.Unsubscribe(subTokenOrientation);
