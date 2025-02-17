@@ -10,7 +10,7 @@ public class Connector : MonoBehaviour
         x_tilt = Mathf.Clamp(GameManager.Instance.giveX_Tilt(), -180, 180);
         y_tilt = Mathf.Clamp(GameManager.Instance.giveY_Tilt(), -180, 180);
 
-        Debug.Log("X-Value : " + x_tilt + ", Y-Value : " + y_tilt);
+        //Debug.Log("X-Value : " + x_tilt + ", Y-Value : " + y_tilt);
 
         /*
         x_tilt = GameManager.Instance.giveX_Tilt() * -200;

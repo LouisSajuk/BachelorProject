@@ -4,11 +4,18 @@ using UnityEngine.InputSystem;
 using System.Collections;
 using UnityEngine.UIElements;
 using Unity.VisualScripting;
+using Unity.Cinemachine;
+using TMPro;
 
 public class PlayerControls : MonoBehaviour
 {
     private CharacterController controller;
     private Camera camera;
+
+    private CinemachineInputAxisController baseAxisController;
+    private TiltInputController tiltInputController;
+    private bool axisInteractable = true;
+
     private PlayerInput input;
     [SerializeField] private Material playerMaterial;
     [SerializeField] private Material backupMaterial;
@@ -37,6 +44,7 @@ public class PlayerControls : MonoBehaviour
     [SerializeField] private AudioClip laserSound;
     [SerializeField] private float fireRate;
     private float fireRateTimeStamp;
+    private int counter = 0;
 
     private void Start()
     {
@@ -54,6 +62,11 @@ public class PlayerControls : MonoBehaviour
         input = GetComponent<PlayerInput>();
         camera = GameObject.Find("Main Camera").GetComponent<Camera>();
 
+        CinemachineInputAxisController[] axisController = GameObject.Find("Third Person Camera").GetComponents<CinemachineInputAxisController>();
+        baseAxisController = axisController[0];
+        tiltInputController = GameObject.Find("Third Person Camera").GetComponent<TiltInputController>();
+
+        axisInteractable = false;
     }
 
     private void OnMove(InputValue inputValue)
@@ -68,43 +81,27 @@ public class PlayerControls : MonoBehaviour
             moveInputValue = Vector3.zero;
         }
     }
-    private void OnMoveFoot(InputValue inputValue)
-    {
-        if (canInteract)
-        {
-            moveInputValue.x = inputValue.Get<Vector2>().x;
-            moveInputValue.z = inputValue.Get<Vector2>().y;
-        }
-        else
-        {
-            moveInputValue = Vector3.zero;
-        }
-    }
-
-    private void OnLook(InputValue inputValue)
-    {
-        //moveInputValue.x = inputValue.Get<Vector2>().x;
-        //moveInputValue.z = inputValue.Get<Vector2>().y;
-    }
 
     private void OnSprint()
     {
         moveSpeedValue = speed * sprintMultiplier;
+
+        if(GameManager.Instance.Steuerung == 4)
+        {
+            baseAxisController.enabled = false;
+            tiltInputController.enabled = true;
+        }
     }
 
     private void OnSprintOff()
     {
         moveSpeedValue = speed;
-    }
-    private void OnSprintFoot()
-    {
-        Debug.Log("Sprinting because Footpedal");
-        moveSpeedValue = speed * sprintMultiplier;
-    }
 
-    private void OnSprintOffFoot()
-    {
-        moveSpeedValue = speed;
+        if (GameManager.Instance.Steuerung == 4)
+        {
+            baseAxisController.enabled = true;
+            tiltInputController.enabled = false;
+        }
     }
 
     private void OnShoot()
@@ -126,15 +123,18 @@ public class PlayerControls : MonoBehaviour
                     lineRenderer.SetPosition(1, hit.point);
                     if (hit.collider.CompareTag("Target"))
                     {
-
-                        //Debug.Log(collision.gameObject.tag + " getroffen!!!");
+                        counter++;
                         Destroy(hit.collider.gameObject);
+                        GameObject.Find("targets").GetComponent<TextMeshProUGUI>().text = counter.ToString() + " / 9";
                         GameObject.FindWithTag("Ziel").GetComponent<Portal>().incrementCount();
 
                     }
                     else if (hit.collider.CompareTag("Tower"))
                     {
                         hit.collider.gameObject.GetComponent<Tower>().decreaseHealth();
+                    }else if (hit.collider.CompareTag("Schild"))
+                    {
+                        GameManager.Instance.switchSteuerung(hit.collider.transform.parent.GetChild(1).GetComponent<Portal>().getSteuerung());
                     }
                 }
                 else
@@ -145,73 +145,16 @@ public class PlayerControls : MonoBehaviour
 
                 SoundManager.instance.PlaySoundClip(laserSound, schieﬂpunkt, 1f);
 
-                /*
-                //Debug.Log("sollte schieﬂen");
-                //Aim();
-                //GameObject tempProjektil = Instantiate(projektil, schieﬂpunkt.position, schieﬂpunkt.rotation);
-                //tempProjektil.GetComponent<Rigidbody>().linearVelocity = schieﬂpunkt.forward * projektilGeschwindigkeit;
-                */
-
                 fireRateTimeStamp = Time.time + fireRate;
             }
         }
     }
-    private void OnShootFoot()
-    {
-        if (canInteract)
-        {
-            if (Time.time > fireRateTimeStamp)
-            {
-                lineRenderer.SetPosition(0, schieﬂpunkt.position);
-
-                float screenX = Screen.width / 2;
-                float screenY = Screen.height / 2;
-
-                RaycastHit hit;
-                Ray ray = camera.ScreenPointToRay(new Vector3(screenX, screenY));
-
-                if (Physics.Raycast(ray, out hit))
-                {
-                    lineRenderer.SetPosition(1, hit.point);
-                    if (hit.collider.CompareTag("Target"))
-                    {
-
-                        //Debug.Log(collision.gameObject.tag + " getroffen!!!");
-                        Destroy(hit.collider.gameObject);
-                        GameObject.FindWithTag("Ziel").GetComponent<Portal>().incrementCount();
-
-                    }
-                    else if (hit.collider.CompareTag("Tower"))
-                    {
-                        hit.collider.gameObject.GetComponent<Tower>().decreaseHealth();
-                    }
-                }
-                else
-                {
-                    lineRenderer.SetPosition(1, ray.origin + (camera.transform.forward * 50));
-                }
-                StartCoroutine(ShootLaser());
-
-
-                /*
-                //Debug.Log("sollte schieﬂen");
-                //Aim();
-                //GameObject tempProjektil = Instantiate(projektil, schieﬂpunkt.position, schieﬂpunkt.rotation);
-                //tempProjektil.GetComponent<Rigidbody>().linearVelocity = schieﬂpunkt.forward * projektilGeschwindigkeit;
-                */
-
-                fireRateTimeStamp = Time.time + fireRate;
-            }
-        }
-    }
-
     private IEnumerator ShootLaser()
     {
         lineRenderer.enabled = true;
         yield return new WaitForSeconds(0.2f);
         lineRenderer.enabled = false;
     }
-
 
     private void Aim()
     {
@@ -228,15 +171,6 @@ public class PlayerControls : MonoBehaviour
             schieﬂpunkt.LookAt(hit.point);
         }
     }
-
-    /*
-    private void OnJump(InputValue inputValue)
-    {
-        if (isGrounded())
-            rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
-    }
-    */
-
     private void MoveLogicMethod()
     {
         Vector3 result = moveInputValue.normalized;
@@ -253,26 +187,9 @@ public class PlayerControls : MonoBehaviour
 
     }
 
-
-    /*
-    private void LookLogicMethod()
-    {
-        
-        Vector3 result = moveInputValue.normalized;
-
-        if (result.magnitude >= 0.1f)
-        {
-            float targetAngle = Mathf.Atan2(result.x, result.z) * Mathf.Rad2Deg + camera.eulerAngles.y;
-            transform.rotation = Quaternion.Euler(0f, targetAngle, 0f);
-        }
-    }
-    */
-
-
     private void Update()
     {
         MoveLogicMethod();
-        //LookLogicMethod();
 
         if (shouldChangeColor)
         {
@@ -289,74 +206,6 @@ public class PlayerControls : MonoBehaviour
             transform.position = newPos;
         }
     }
-
-    /*
-    private async void StartTest()
-    {
-        if (ubiiNode == null)
-        {
-            Debug.Log("UbiiClient not found");
-            return;
-        }
-
-        await ubiiNode.WaitForConnection();
-
-
-        ServiceReply reply = await ubiiNode.CallService(new ServiceRequest
-        {
-            Topic = UbiiConstants.Instance.DEFAULT_TOPICS.SERVICES.DEVICE_GET_LIST,
-            Device = new Ubii.Devices.Device
-
-            {
-                Name = "web-interface-smart-device",
-                Tags = { new Google.Protobuf.Collections.RepeatedField<string>() { "claw" } },
-
-            }
-        });
-        Debug.Log(reply);
-
-
-        //reply.DeviceList.
-
-
-
-        reply = await ubiiNode.CallService(new ServiceRequest
-        {
-            Topic = "/services/component/get_list",
-            ComponentList = new Ubii.Devices.ComponentList
-            {
-                Elements = {
-                    new Google.Protobuf.Collections.RepeatedField< Ubii.Devices.Component>(){
-                        new Ubii.Devices.Component {
-                            MessageFormat = "ubii.dataStructure.Vector3",
-                            Tags = { new Google.Protobuf.Collections.RepeatedField<string>(){"claw"}}
-                        }
-                    }
-                }
-            }
-        });
-        Debug.Log(reply);
-        
-    }
-    */
-
-    /*
-    public void setSpeed(float wert, float wert2)
-    {
-        moveSpeedValue = wert;
-        sprintMultiplier = wert2;
-    }
-
-    public float getSpeed()
-    {
-        return speed;
-    }
-
-    public float getSprintMultiplier()
-    {
-        return sprintMultiplier;
-    }
-    */
 
     public void setInteract(bool interact)
     {
@@ -384,25 +233,5 @@ public class PlayerControls : MonoBehaviour
         yield return new WaitForSeconds(1.2f);
         shouldChangeColor = false;
         setInteract(true);
-
-        //playerMaterial.color = Color.Lerp(Color.red, playerColor, 2f);
     }
-
-
-
-
-    /*
-
-    private void pushDown()
-    {
-        Debug.Log("pushing down");
-        //rb.linearVelocity += Vector3.down * (Time.fixedDeltaTime * fallMultiplier);
-        rb.AddForce(Vector3.down * fallMultiplier, ForceMode.Impulse);
-    }
-
-    private bool isGrounded()
-    {
-        return rb.linearVelocity.y == 0;
-    }
-    */
 }

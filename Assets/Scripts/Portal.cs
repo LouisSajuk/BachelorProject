@@ -28,6 +28,7 @@ public class Portal : MonoBehaviour
             if (scene.name == "StartingScene")
             {
                 GameManager.Instance.Steuerung = steuerung;
+                GameManager.Instance.switchSteuerung(steuerung);
                 SceneManager.LoadScene("Level_1");
             }
             else if (scene.name == "Level_1")
@@ -52,5 +53,10 @@ public class Portal : MonoBehaviour
     {
         targetCount++;
         Debug.Log("targetCount = " + targetCount);
+    }
+
+    public int getSteuerung()
+    {
+        return steuerung;
     }
 }

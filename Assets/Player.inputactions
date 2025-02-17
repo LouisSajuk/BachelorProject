@@ -96,7 +96,7 @@
                     "id": "6dca9a07-7d37-4055-8087-65c6e9f11356",
                     "path": "<XInputController>/rightStick",
                     "interactions": "",
-                    "processors": "ScaleVector2(x=-100,y=100),InvertVector2",
+                    "processors": "ScaleVector2(x=100,y=100),InvertVector2(invertX=false,invertY=false)",
                     "groups": ";FootPedal;Gamepad",
                     "action": "Look",
                     "isComposite": false,
@@ -108,18 +108,7 @@
                     "path": "<XInputController>/buttonEast",
                     "interactions": "",
                     "processors": "",
-                    "groups": ";Gamepad",
-                    "action": "SprintOff",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "00fd1296-6520-40ef-8812-3a12963f2001",
-                    "path": "<Joystick>/stick/up",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": ";FootPedal",
+                    "groups": ";Gamepad;FootPedal",
                     "action": "SprintOff",
                     "isComposite": false,
                     "isPartOfComposite": false
@@ -141,18 +130,115 @@
                     "path": "<XInputController>/buttonEast",
                     "interactions": "",
                     "processors": "",
-                    "groups": ";Gamepad",
+                    "groups": ";Gamepad;FootPedal",
                     "action": "Sprint",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        },
+        {
+            "name": "Footpedal",
+            "id": "760b2c52-6768-4d3c-b1fb-9e8b3214b996",
+            "actions": [
+                {
+                    "name": "Move",
+                    "type": "Value",
+                    "id": "5258fe72-00ed-4de8-a682-1898e91874f6",
+                    "expectedControlType": "Vector2",
+                    "processors": "StickDeadzone",
+                    "interactions": "",
+                    "initialStateCheck": true
+                },
+                {
+                    "name": "Look",
+                    "type": "Value",
+                    "id": "7268e150-ec0b-481b-b60c-ba9c7c4de7c6",
+                    "expectedControlType": "Vector2",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                },
+                {
+                    "name": "Sprint",
+                    "type": "Button",
+                    "id": "2778500e-fe80-4d40-aa99-e3185e42f3c1",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "Press",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "SprintOff",
+                    "type": "Button",
+                    "id": "4f5e3511-b14f-4a9f-bfa7-4669743f9878",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "Press(behavior=1)",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Shoot",
+                    "type": "Button",
+                    "id": "edfcdbf9-be34-4a7c-9c6d-b95281b36424",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "Press",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "58c39d79-e889-42cb-b42a-43b43dd4e103",
+                    "path": "<XInputController>/leftStick",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";FootPedal;Gamepad",
+                    "action": "Move",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
                 {
                     "name": "",
-                    "id": "358dc20b-d06a-4658-9ed7-699cd020a2d2",
+                    "id": "1e8d5b12-3cb0-4de6-a2cc-4a5c1fcbfe3a",
+                    "path": "<XInputController>/rightStick",
+                    "interactions": "",
+                    "processors": "ScaleVector2(x=100,y=100),InvertVector2(invertX=false,invertY=false)",
+                    "groups": ";FootPedal;Gamepad",
+                    "action": "Look",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "71800e81-23bd-4858-8e73-02b26a75aebf",
                     "path": "<Joystick>/stick/up",
                     "interactions": "",
                     "processors": "",
-                    "groups": ";FootPedal",
+                    "groups": ";FootPedal;Gamepad",
+                    "action": "SprintOff",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "8ebd2f6c-25dc-4e4b-bdaa-aceee30e6e84",
+                    "path": "<XInputController>/rightTrigger",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";FootPedal;Gamepad",
+                    "action": "Shoot",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "3cee5d5a-2d7d-4083-863b-e314b625b658",
+                    "path": "<Joystick>/stick/up",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";FootPedal;Gamepad",
                     "action": "Sprint",
                     "isComposite": false,
                     "isPartOfComposite": false

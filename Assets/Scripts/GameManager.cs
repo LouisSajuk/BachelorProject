@@ -4,6 +4,7 @@ using TMPro.EditorUtilities;
 using Ubii.Devices;
 using Ubii.Services;
 using Ubii.TopicData;
+using Unity.Cinemachine;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
@@ -13,6 +14,7 @@ public class GameManager : MonoBehaviour
     private PlayerControls _playerControls;
     private PlayerInput _playerInput;
     private UbiiNode _node;
+    private TextMeshProUGUI controlUI;
 
     private bool firstStart = true;
     private Vector3 spawnLocation = new Vector3(0, 0, -34);
@@ -35,12 +37,9 @@ public class GameManager : MonoBehaviour
     private float x_tilt;
     private float y_tilt;
     private bool firstOrigin = true;
-    //[SerializeField] private GameObject portal1;
-    //[SerializeField] private GameObject portal2;
-    //[SerializeField] private GameObject portal3;
-    //[SerializeField] private GameObject portal4;
 
-    //public static AudioManager Audio;
+    private CinemachineInputAxisController baseAxisController;
+    private CinemachineInputAxisController footpedalAxisController;
 
     //Steuerungen:
     //1 = Claw Grip
@@ -89,7 +88,7 @@ public class GameManager : MonoBehaviour
         _nextSteuerung = 0;
 
         //StartTest();
-        StartTest2();
+        StartUbiConenction();
 
     }
 
@@ -141,7 +140,7 @@ public class GameManager : MonoBehaviour
         //Debug.Log(handyOrientation.ToString());
     }
 
-    private async void StartTest2()
+    private async void StartUbiConenction()
     {
         await ubiiNode.WaitForConnection();
         ServiceReply reply = await ubiiNode.CallService(new ServiceRequest
@@ -196,53 +195,6 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    private async void StartTest()
-    {
-        if (ubiiNode == null)
-        {
-            Debug.Log("UbiiClient not found");
-            return;
-        }
-
-        await ubiiNode.WaitForConnection();
-
-
-        ServiceReply reply = await ubiiNode.CallService(new ServiceRequest
-        {
-            Topic = UbiiConstants.Instance.DEFAULT_TOPICS.SERVICES.DEVICE_GET_LIST,
-            Device = new Ubii.Devices.Device
-            {
-                Name = "web-interface-smart-device",
-                Tags = { new Google.Protobuf.Collections.RepeatedField<string>() { "claw" } },
-
-            }
-        });
-        Debug.Log(reply);
-
-
-        //reply.DeviceList.
-
-
-
-        reply = await ubiiNode.CallService(new ServiceRequest
-        {
-            Topic = "/services/component/get_list",
-            ComponentList = new Ubii.Devices.ComponentList
-            {
-                Elements = {
-                    new Google.Protobuf.Collections.RepeatedField< Ubii.Devices.Component>(){
-                        new Ubii.Devices.Component {
-                            MessageFormat = "ubii.dataStructure.Vector3",
-                            Tags = { new Google.Protobuf.Collections.RepeatedField<string>(){ "orientation" } }
-                        }
-                    }
-                }
-            }
-        });
-        Debug.Log(reply);
-
-    }
-
     public int Steuerung
     {
         get { return _steuerung; }
@@ -258,6 +210,38 @@ public class GameManager : MonoBehaviour
             _reihenfolge[1] = value[1];
             _reihenfolge[2] = value[2];
             _reihenfolge[3] = value[3];
+        }
+    }
+
+    public void switchSteuerung(int steuerung)
+    {
+        if (steuerung == 1)
+        {
+            Steuerung = 1;
+            controlUI.text = "Claw Grip";
+            _playerInput.SwitchCurrentActionMap("Base");
+            deactivateFootPedal();
+        }
+        else if(steuerung == 2)
+        {
+            Steuerung = 2;
+            controlUI.text = "Foot pedal";
+            _playerInput.SwitchCurrentActionMap("Footpedal");
+            activateFootPedal();
+        }
+        else if (steuerung == 3)
+        {
+            Steuerung = 3;
+            controlUI.text = "Back Button";
+            _playerInput.SwitchCurrentActionMap("Base");
+            deactivateFootPedal();
+        }
+        else if (steuerung == 4)
+        {
+            Steuerung = 4;
+            controlUI.text = "Tilt Control";
+            _playerInput.SwitchCurrentActionMap("Base");
+            deactivateFootPedal();
         }
     }
 
@@ -291,6 +275,11 @@ public class GameManager : MonoBehaviour
         {
             _playerControls = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerControls>();
             _playerInput = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerInput>();
+            controlUI = GameObject.Find("ControlTechnique").GetComponent<TextMeshProUGUI>();
+
+            CinemachineInputAxisController[] axisController = GameObject.Find("Third Person Camera").GetComponents<CinemachineInputAxisController>();
+            baseAxisController = axisController[0];
+            footpedalAxisController = axisController[1];
         }
 
         if (next.name == "StartingScene")
@@ -305,12 +294,13 @@ public class GameManager : MonoBehaviour
             changePlayerInput("Base");
 
             Steuerung = _reihenfolge[_nextSteuerung];
+            //switchSteuerung(Steuerung);
             Debug.Log("Derzeitige Steuerung : " + getSteuerungString());
 
-            portals[0] = GameObject.Find("Portal1").transform.GetChild(0).gameObject;
-            portals[1] = GameObject.Find("Portal2").transform.GetChild(0).gameObject;
-            portals[2] = GameObject.Find("Portal3").transform.GetChild(0).gameObject;
-            portals[3] = GameObject.Find("Portal4").transform.GetChild(0).gameObject;
+            portals[0] = GameObject.Find("Portal1").transform.GetChild(1).gameObject;
+            portals[1] = GameObject.Find("Portal2").transform.GetChild(1).gameObject;
+            portals[2] = GameObject.Find("Portal3").transform.GetChild(1).gameObject;
+            portals[3] = GameObject.Find("Portal4").transform.GetChild(1).gameObject;
 
             Debug.Log("Jetzt Portal Nummer : " + _reihenfolge[_nextSteuerung]);
 
@@ -333,12 +323,8 @@ public class GameManager : MonoBehaviour
 
         }
 
-        if (next.name == "Level_1")
-        {
-            //_playerControls.inputMap = Steuerung;
 
-        }
-
+        switchSteuerung(Steuerung);
 
         Debug.Log("Current Scene : " + next.name);
     }
@@ -405,5 +391,17 @@ public class GameManager : MonoBehaviour
             steuerungString = "Tilt Controls";
         }
         return steuerungString;
+    }
+
+    private void activateFootPedal()
+    {
+        footpedalAxisController.enabled = true;
+        baseAxisController.enabled = false;
+    }
+
+    private void deactivateFootPedal()
+    {
+        baseAxisController.enabled = true;
+        footpedalAxisController.enabled = false;
     }
 }
