@@ -35,6 +35,7 @@ public class Boulder : MonoBehaviour
             Debug.Log("Ouch by Boulder!!!");
             collision.gameObject.GetComponent<PlayerControls>().ouch();
 
+            PerformanceCatcher.Instance.incOuchRock();
 
             GameObject.Destroy(feld);
             GameObject.Destroy(gameObject);

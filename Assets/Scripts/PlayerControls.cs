@@ -46,6 +46,8 @@ public class PlayerControls : MonoBehaviour
     private float fireRateTimeStamp;
     private int counter = 0;
 
+    [SerializeField] private GameObject startScreen;
+
     private void Start()
     {
         moveSpeedValue = speed;
@@ -67,6 +69,11 @@ public class PlayerControls : MonoBehaviour
         tiltInputController = GameObject.Find("Third Person Camera").GetComponent<TiltInputController>();
 
         axisInteractable = false;
+
+        if (startScreen != null)
+        {
+            Time.timeScale = 0;
+        }
     }
 
     private void OnMove(InputValue inputValue)
@@ -84,9 +91,16 @@ public class PlayerControls : MonoBehaviour
 
     private void OnSprint()
     {
+
+        if (startScreen != null)
+        {
+            Time.timeScale = 1;
+            startScreen.SetActive(false);
+        }
+
         moveSpeedValue = speed * sprintMultiplier;
 
-        if(GameManager.Instance.Steuerung == 4)
+        if (GameManager.Instance.Steuerung == 4)
         {
             baseAxisController.enabled = false;
             tiltInputController.enabled = true;
@@ -110,6 +124,8 @@ public class PlayerControls : MonoBehaviour
         {
             if (Time.time > fireRateTimeStamp)
             {
+                PerformanceCatcher.Instance.incShotsTaken();
+
                 lineRenderer.SetPosition(0, schieﬂpunkt.position);
 
                 float screenX = Screen.width / 2;
@@ -123,6 +139,7 @@ public class PlayerControls : MonoBehaviour
                     lineRenderer.SetPosition(1, hit.point);
                     if (hit.collider.CompareTag("Target"))
                     {
+                        PerformanceCatcher.Instance.incShotsHit();
                         counter++;
                         Destroy(hit.collider.gameObject);
                         GameObject.Find("targets").GetComponent<TextMeshProUGUI>().text = counter.ToString() + " / 9";
@@ -132,7 +149,8 @@ public class PlayerControls : MonoBehaviour
                     else if (hit.collider.CompareTag("Tower"))
                     {
                         hit.collider.gameObject.GetComponent<Tower>().decreaseHealth();
-                    }else if (hit.collider.CompareTag("Schild"))
+                    }
+                    else if (hit.collider.CompareTag("Schild"))
                     {
                         GameManager.Instance.switchSteuerung(hit.collider.transform.parent.GetChild(1).GetComponent<Portal>().getSteuerung());
                     }
@@ -200,7 +218,7 @@ public class PlayerControls : MonoBehaviour
             }
         }
 
-        if(transform.position.y != 0)
+        if (transform.position.y != 0)
         {
             Vector3 newPos = new Vector3(transform.position.x, 1, transform.position.z);
             transform.position = newPos;

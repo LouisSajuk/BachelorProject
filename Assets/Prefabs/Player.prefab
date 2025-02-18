@@ -551,6 +551,7 @@ MonoBehaviour:
   ouchSound: {fileID: 8300000, guid: 90d3591a6f12c6942bf1c5c19ef26a1b, type: 3}
   laserSound: {fileID: 8300000, guid: 58095b81e7e60664fab5f0f813aa1cf0, type: 3}
   fireRate: 0.5
+  startScreen: {fileID: 0}
 --- !u!114 &1510812003002981492
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -577,7 +578,7 @@ MonoBehaviour:
       m_Calls: []
   m_ActionEvents: []
   m_NeverAutoSwitchControlSchemes: 1
-  m_DefaultControlScheme: Gamepad
+  m_DefaultControlScheme: FootPedal
   m_DefaultActionMap: Base
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}

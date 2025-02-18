@@ -30,25 +30,14 @@ public class Obstacle : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Player"))
         {
-            //rg.constraints = RigidbodyConstraints.FreezeAll;
-
-            //coroutine = stopMovement();
-            //PlayerControls.setSpeed(0, 0);
-            //PlayerControls.setMovable(false);
-
+            PerformanceCatcher.Instance.incOuchFire();
             Debug.Log("Ouch by Obstacle!!!");
             PlayerControls.ouch();
-            //StartCoroutine(coroutine);
-
-            //Debug.Log(playerSpeed);
-            //Debug.Log(playerSprintMultiplier);
         }
         else if (collision.gameObject.CompareTag("Obstacle"))
         {
-            //Debug.Log("Boulder wurde getroffen!");
             if (!collision.gameObject.GetComponent<Boulder>().IsFlying())
             {
-                //Debug.Log("Boulder wurde entfernt!");
                 Destroy(collision.gameObject);
             }
         }

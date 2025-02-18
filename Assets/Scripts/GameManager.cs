@@ -80,16 +80,12 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
-        //_node = GameObject.FindGameObjectWithTag("UbiiNode").GetComponent<UbiiNode>();
-
         portals = new GameObject[4];
         _reihenfolge = new int[4];
         _steuerung = 1;
         _nextSteuerung = 0;
 
-        //StartTest();
         StartUbiConenction();
-
     }
 
     public float giveX_Tilt()
@@ -98,7 +94,7 @@ public class GameManager : MonoBehaviour
         if (Math.Abs(value) < 0.03f)
             return 0;
 
-        if(value < 0)
+        if (value < 0)
             //return (value - 0.1f) * -100;
             return (float)((Math.Pow(value, 2f)) * 1000);
 
@@ -222,7 +218,7 @@ public class GameManager : MonoBehaviour
             _playerInput.SwitchCurrentActionMap("Base");
             deactivateFootPedal();
         }
-        else if(steuerung == 2)
+        else if (steuerung == 2)
         {
             Steuerung = 2;
             controlUI.text = "Foot pedal";
@@ -243,6 +239,11 @@ public class GameManager : MonoBehaviour
             _playerInput.SwitchCurrentActionMap("Base");
             deactivateFootPedal();
         }
+    }
+
+    public bool getAlleSteuerungenDurch()
+    {
+        return alleSteuerungenDurch;
     }
 
     public int nextSteuerung()
@@ -288,13 +289,14 @@ public class GameManager : MonoBehaviour
             {
                 firstStart = false;
                 GameObject.FindGameObjectWithTag("Player").transform.Translate(spawnLocation);
-
+                PerformanceCatcher.Instance.getReihenfolgeAsStrings();
+                PerformanceCatcher.Instance.addEmptyLine();
             }
 
             changePlayerInput("Base");
 
             Steuerung = _reihenfolge[_nextSteuerung];
-            //switchSteuerung(Steuerung);
+
             Debug.Log("Derzeitige Steuerung : " + getSteuerungString());
 
             portals[0] = GameObject.Find("Portal1").transform.GetChild(1).gameObject;
