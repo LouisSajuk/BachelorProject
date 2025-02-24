@@ -33,7 +33,7 @@ public class Portal : MonoBehaviour
             }
             else if (scene.name == "Level_1")
             {
-                if (targetCount == 9)
+                if (targetCount == 12)
                 {
                     SceneManager.LoadScene("Level_2");
                 }

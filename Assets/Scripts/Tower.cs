@@ -5,14 +5,14 @@ public class Tower : MonoBehaviour
 {
     [SerializeField] private int health;
     private Vector3 vector;
-    private GameManager gameManager;
+    //private GameManager gameManager;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         health = 10;
         vector = Vector3.up;
-        gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
+        //gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
     }
 
     // Update is called once per frame
@@ -36,7 +36,7 @@ public class Tower : MonoBehaviour
 
         if (health == 0){
             Debug.Log("Should go back to StartingLevel");
-            gameManager.nextSteuerung();
+            GameManager.Instance.nextSteuerung();
             SceneManager.LoadScene("StartingScene");
         }
     }

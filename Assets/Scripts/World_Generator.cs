@@ -429,30 +429,47 @@ public class World_Generator : MonoBehaviour
 
     private void spawnCorridor()
     {
+        int first = Random.Range(1, 3);
+        int second = Random.Range(3, 5);
+
+
+
         //Debug.Log(Richtung + " für Corridor");
         if (Richtung == 1)
         {
             temp = Instantiate(Corridor, Knuepfpunkt.position, Quaternion.identity);
             Knuepfpunkt = temp.transform.GetChild(0);
             generatedObjects.Add(temp);
+
+            temp.transform.GetChild(first).gameObject.SetActive(false);
+            temp.transform.GetChild(second).gameObject.SetActive(false);
         }
         else if (Richtung == 2)
         {
             temp = Instantiate(Corridor, Knuepfpunkt.position, Quaternion.Euler(0, 90, 0));
             Knuepfpunkt = temp.transform.GetChild(0);
             generatedObjects.Add(temp);
+
+            temp.transform.GetChild(first).gameObject.SetActive(false);
+            temp.transform.GetChild(second).gameObject.SetActive(false);
         }
         else if (Richtung == 3)
         {
             temp = Instantiate(Corridor, Knuepfpunkt.position, Quaternion.Euler(0, 180, 0));
             Knuepfpunkt = temp.transform.GetChild(0);
             generatedObjects.Add(temp);
+
+            temp.transform.GetChild(first).gameObject.SetActive(false);
+            temp.transform.GetChild(second).gameObject.SetActive(false);
         }
         else if (Richtung == 4)
         {
             temp = Instantiate(Corridor, Knuepfpunkt.position, Quaternion.Euler(0, 270, 0));
             Knuepfpunkt = temp.transform.GetChild(0);
             generatedObjects.Add(temp);
+
+            temp.transform.GetChild(first).gameObject.SetActive(false);
+            temp.transform.GetChild(second).gameObject.SetActive(false);
         }
         else
         {

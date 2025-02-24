@@ -1,4 +1,5 @@
 using JetBrains.Annotations;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -19,8 +20,13 @@ public class PerformanceCatcher : MonoBehaviour
     private int ouchRock;
     private int ouchFire;
 
-    private bool firsttime = true;
+    private String days = System.DateTime.Now.Day.ToString();
+    private String hours = System.DateTime.Now.Hour.ToString();
+    private String minutes = System.DateTime.Now.Minute.ToString();
+    private String seconds = System.DateTime.Now.Second.ToString();
+    private String time3;
 
+    private bool firsttime = true;
     private LinkedList<string> performanceStrings = new LinkedList<string>();
 
     #region PerformanceCatcher
@@ -59,6 +65,8 @@ public class PerformanceCatcher : MonoBehaviour
         ouchRock = 0;
         accuracy = 0;
         performanceStrings.AddLast("This is the Performance Data for:");
+
+        time3 = days + "_" + hours + "_" + minutes + "_" + seconds;
     }
 
     private void ChangedActiveScene(Scene current, Scene next)
@@ -81,6 +89,9 @@ public class PerformanceCatcher : MonoBehaviour
                 timeForTechnique += timeForLevel;
                 timeTotal += timeForTechnique;
                 performanceStrings.AddLast("Level 3 / Time: " + timeForLevel.ToString());
+                performanceStrings.AddLast("Level 3 / Shots: " + shotsTaken.ToString());
+                performanceStrings.AddLast("Level 3 / Hits: " + shotsHit.ToString());
+                performanceStrings.AddLast("Level 3 / Accuracy: " + computeAccuracy().ToString());
                 performanceStrings.AddLast("Level 3 / ouchRock: " + ouchRock.ToString());
                 performanceStrings.AddLast("Level 3 / ouchFire: " + ouchFire.ToString());
                 performanceStrings.AddLast("Total Time Technique: " + timeForTechnique.ToString());
@@ -137,7 +148,8 @@ public class PerformanceCatcher : MonoBehaviour
 
     private void CreateNewTextFile()
     {
-        using (StreamWriter sw = File.CreateText(Application.dataPath + "/UserStatistics/NewTextFile.txt"))
+        //using (StreamWriter sw = File.CreateText(Application.dataPath + "/UserStatistics/NewTextFile.txt"))
+        using (StreamWriter sw = File.CreateText(Application.dataPath + "/UserStatistics/PerformanceReport-" + time3 + ".txt"))
         {
             for (int i = 0; i < performanceStrings.Count; i++)
             {

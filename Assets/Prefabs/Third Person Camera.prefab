@@ -241,7 +241,7 @@ MonoBehaviour:
       InputValue: 0
       Driver:
         AccelTime: 0.2
-        DecelTime: 0.2
+        DecelTime: 0
     - Name: Look Orbit Y
       Owner: {fileID: 6246868555284215269}
       Enabled: 1
@@ -254,7 +254,7 @@ MonoBehaviour:
       InputValue: 0
       Driver:
         AccelTime: 0.2
-        DecelTime: 0.2
+        DecelTime: 0
     - Name: Orbit Scale
       Owner: {fileID: 6246868555284215269}
       Enabled: 1
@@ -299,7 +299,7 @@ MonoBehaviour:
       InputValue: 0
       Driver:
         AccelTime: 0.2
-        DecelTime: 0.2
+        DecelTime: 0
     - Name: Look Orbit Y
       Owner: {fileID: 6246868555284215269}
       Enabled: 1
@@ -312,7 +312,7 @@ MonoBehaviour:
       InputValue: 0
       Driver:
         AccelTime: 0.2
-        DecelTime: 0.2
+        DecelTime: 0
     - Name: Orbit Scale
       Owner: {fileID: 6246868555284215269}
       Enabled: 1
@@ -354,7 +354,7 @@ MonoBehaviour:
       InputValue: 0
       Driver:
         AccelTime: 0.2
-        DecelTime: 0.2
+        DecelTime: 0
     - Name: Look Orbit Y
       Owner: {fileID: 6246868555284215269}
       Enabled: 1
@@ -364,7 +364,7 @@ MonoBehaviour:
       InputValue: 0
       Driver:
         AccelTime: 0.2
-        DecelTime: 0.2
+        DecelTime: 0
     - Name: Orbit Scale
       Owner: {fileID: 6246868555284215269}
       Enabled: 1

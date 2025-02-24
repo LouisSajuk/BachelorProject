@@ -6257,6 +6257,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sound: {fileID: 46355411383050354, guid: d13d1498a9decdc47be1f6ebf18df89e, type: 3}
+  hub_music: {fileID: 8300000, guid: 4ef62e9a106d06f458fb79d2df4690c3, type: 3}
+  lvl1_music: {fileID: 8300000, guid: c99ff9b7db519cd478fcf1c1f44d1f94, type: 3}
+  lvl2_music: {fileID: 8300000, guid: 88f89b7622c81f04b8cf03f0b49e936d, type: 3}
+  lvl3_music: {fileID: 8300000, guid: ada7bea14f91f7d409e1e95c8447aff8, type: 3}
+  music_volume: 0.8
 --- !u!4 &1377857946
 Transform:
   m_ObjectHideFlags: 0

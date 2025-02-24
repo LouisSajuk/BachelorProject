@@ -32,6 +32,8 @@ public class PlayerControls : MonoBehaviour
     private Vector3 moveInputValue;
     private Vector3 lookInputValue;
     private float moveSpeedValue;
+    bool ifSprinting = false;
+    bool sprintToSTart = true;
 
     private bool canInteract;
     private int hitPoints;
@@ -42,6 +44,7 @@ public class PlayerControls : MonoBehaviour
 
     [SerializeField] private AudioClip ouchSound;
     [SerializeField] private AudioClip laserSound;
+    [SerializeField] private GameObject SprintParticles;
     [SerializeField] private float fireRate;
     private float fireRateTimeStamp;
     private int counter = 0;
@@ -63,6 +66,7 @@ public class PlayerControls : MonoBehaviour
         controller = GetComponent<CharacterController>();
         input = GetComponent<PlayerInput>();
         camera = GameObject.Find("Main Camera").GetComponent<Camera>();
+        SprintParticles.SetActive(false);
 
         CinemachineInputAxisController[] axisController = GameObject.Find("Third Person Camera").GetComponents<CinemachineInputAxisController>();
         baseAxisController = axisController[0];
@@ -91,17 +95,23 @@ public class PlayerControls : MonoBehaviour
 
     private void OnSprint()
     {
+        SprintParticles.SetActive(true);
 
-        if (startScreen != null)
+        if (startScreen != null && sprintToSTart)
         {
             Time.timeScale = 1;
             startScreen.SetActive(false);
+            SoundManager.Instance.startMusic();
+            sprintToSTart = false;
         }
+
+        ifSprinting = true;
 
         moveSpeedValue = speed * sprintMultiplier;
 
         if (GameManager.Instance.Steuerung == 4)
         {
+            GameManager.Instance.updateHandyOrigin();
             baseAxisController.enabled = false;
             tiltInputController.enabled = true;
         }
@@ -109,6 +119,9 @@ public class PlayerControls : MonoBehaviour
 
     private void OnSprintOff()
     {
+        ifSprinting = false;
+        SprintParticles.SetActive(false);
+
         moveSpeedValue = speed;
 
         if (GameManager.Instance.Steuerung == 4)
@@ -142,17 +155,30 @@ public class PlayerControls : MonoBehaviour
                         PerformanceCatcher.Instance.incShotsHit();
                         counter++;
                         Destroy(hit.collider.gameObject);
-                        GameObject.Find("targets").GetComponent<TextMeshProUGUI>().text = counter.ToString() + " / 9";
+                        GameObject.Find("targets").GetComponent<TextMeshProUGUI>().text = counter.ToString() + " / 12";
                         GameObject.FindWithTag("Ziel").GetComponent<Portal>().incrementCount();
 
                     }
                     else if (hit.collider.CompareTag("Tower"))
                     {
+                        PerformanceCatcher.Instance.incShotsHit();
                         hit.collider.gameObject.GetComponent<Tower>().decreaseHealth();
                     }
                     else if (hit.collider.CompareTag("Schild"))
                     {
                         GameManager.Instance.switchSteuerung(hit.collider.transform.parent.GetChild(1).GetComponent<Portal>().getSteuerung());
+                        if (hit.collider.transform.parent.GetChild(1).GetComponent<Portal>().getSteuerung() != 4)
+                        {
+                            tiltInputController.enabled = false;
+                        }
+                        else
+                        {
+                            if (ifSprinting)
+                            {
+                                baseAxisController.enabled = false;
+                                tiltInputController.enabled = true;
+                            }
+                        }
                     }
                 }
                 else
@@ -161,7 +187,7 @@ public class PlayerControls : MonoBehaviour
                 }
                 StartCoroutine(ShootLaser());
 
-                SoundManager.instance.PlaySoundClip(laserSound, schieﬂpunkt, 1f);
+                SoundManager.Instance.PlaySoundClip(laserSound, schieﬂpunkt, 1f);
 
                 fireRateTimeStamp = Time.time + fireRate;
             }
@@ -240,7 +266,7 @@ public class PlayerControls : MonoBehaviour
 
         Debug.Log(hitPoints);
 
-        SoundManager.instance.PlaySoundClip(ouchSound, schieﬂpunkt, 1f);
+        SoundManager.Instance.PlaySoundClip(ouchSound, schieﬂpunkt, 1f);
 
         coroutine = changeColor();
         StartCoroutine(coroutine);

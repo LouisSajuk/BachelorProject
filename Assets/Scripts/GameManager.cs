@@ -1,4 +1,5 @@
 using System;
+using System.Xml.Serialization;
 using TMPro;
 using TMPro.EditorUtilities;
 using Ubii.Devices;
@@ -136,6 +137,11 @@ public class GameManager : MonoBehaviour
         //Debug.Log(handyOrientation.ToString());
     }
 
+    public void updateHandyOrigin()
+    {
+        originOrientation = handyOrientation;
+    }
+
     private async void StartUbiConenction()
     {
         await ubiiNode.WaitForConnection();
@@ -215,28 +221,48 @@ public class GameManager : MonoBehaviour
         {
             Steuerung = 1;
             controlUI.text = "Claw Grip";
-            _playerInput.SwitchCurrentActionMap("Base");
+
+            if (_playerInput.currentActionMap.ToString() != "Player (UnityEngine.InputSystem.InputActionAsset):Base")
+            {
+                _playerInput.SwitchCurrentActionMap("Base");
+            }
+
             deactivateFootPedal();
         }
         else if (steuerung == 2)
         {
             Steuerung = 2;
             controlUI.text = "Foot pedal";
-            _playerInput.SwitchCurrentActionMap("Footpedal");
+
+            if (_playerInput.currentActionMap.ToString() != "Player (UnityEngine.InputSystem.InputActionAsset):Footpedal")
+            {
+                _playerInput.SwitchCurrentActionMap("Footpedal");
+            }
+
             activateFootPedal();
         }
         else if (steuerung == 3)
         {
             Steuerung = 3;
             controlUI.text = "Back Button";
-            _playerInput.SwitchCurrentActionMap("Base");
+
+            if (_playerInput.currentActionMap.ToString() != "Player (UnityEngine.InputSystem.InputActionAsset):Base")
+            {
+                _playerInput.SwitchCurrentActionMap("Base");
+            }
+
             deactivateFootPedal();
         }
         else if (steuerung == 4)
         {
             Steuerung = 4;
             controlUI.text = "Tilt Control";
-            _playerInput.SwitchCurrentActionMap("Base");
+            
+            if(_playerInput.currentActionMap.ToString() != "Player (UnityEngine.InputSystem.InputActionAsset):Base")
+            {
+                _playerInput.SwitchCurrentActionMap("Base");
+            }
+            
             deactivateFootPedal();
         }
     }

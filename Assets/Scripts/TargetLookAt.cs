@@ -6,9 +6,9 @@ public class TargetLookAt : MonoBehaviour
     [SerializeField] private GameObject Player;
     //[SerializeField] private Rigidbody rb;
     private float timer;
-    private float speed;
-    private float width;
-    private float height;
+    [SerializeField] private float speed;
+    [SerializeField] private float width;
+    [SerializeField] private float height;
 
     //[SerializeField] private CharacterController controller;
     Vector3 startPos = Vector3.zero;
@@ -18,9 +18,6 @@ public class TargetLookAt : MonoBehaviour
     {
         startPos = transform.position;
         timer = 0;
-        speed = 2;
-        width = 2;
-        height = 2;
         Player = GameObject.FindWithTag("Player");
     }
 

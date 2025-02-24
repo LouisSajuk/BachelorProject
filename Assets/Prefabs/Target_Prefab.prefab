@@ -105,6 +105,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Player: {fileID: 0}
+  speed: 4
+  width: 2
+  height: 2
 --- !u!65 &598236300596360148
 BoxCollider:
   m_ObjectHideFlags: 0
