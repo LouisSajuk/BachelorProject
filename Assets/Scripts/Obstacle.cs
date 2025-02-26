@@ -4,26 +4,40 @@ using UnityEngine;
 public class Obstacle : MonoBehaviour
 {
     [SerializeField] private int speed;
+    [SerializeField] private float timeToSwitchDirection;
+    private float directionTimeStamp;
     //private GameObject Player;
     private PlayerControls PlayerControls;
     //private Rigidbody rg;
     private IEnumerator coroutine;
     private float playerSpeed;
     private float playerSprintMultiplier;
+    Vector3 director;
 
 
     private void Start()
     {
         PlayerControls = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerControls>();
-        //playerSpeed = PlayerControls.getSpeed();
-        //playerSprintMultiplier = PlayerControls.getSprintMultiplier();
-
-        //coroutine = stopMovement();
+        director = Vector3.down;
+        directionTimeStamp = 0;
     }
 
     void Update()
     {
-        this.transform.Rotate(Vector3.up * (speed * Time.deltaTime));
+        if (Time.time > directionTimeStamp)
+        {
+            if (director == Vector3.up)
+            {
+                director = Vector3.down;
+            }
+            else
+            {
+                director = Vector3.up;
+            }
+            directionTimeStamp = Time.time + timeToSwitchDirection;
+        }
+
+        this.transform.Rotate(director * (speed * Time.deltaTime));
     }
 
     private void OnTriggerEnter(Collider collision)

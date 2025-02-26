@@ -91,22 +91,22 @@ public class GameManager : MonoBehaviour
 
     public float giveX_Tilt()
     {
-        float value = originOrientation.y - handyOrientation.y;
-        if (Math.Abs(value) < 0.03f)
+        float value = differenceOrientation.y;
+
+        if (value < 0.03f)
             return 0;
 
-        if (value < 0)
-            //return (value - 0.1f) * -100;
-            return (float)((Math.Pow(value, 2f)) * 1000);
+        if (handyOrientation.y > originOrientation.y)
+            return (float)((Math.Pow(value, 2f)));
 
-        if (value > 0)
-            //return (value + 0.1f) * -100;
-            return (float)((Math.Pow(value, 2f)) * -1000);
+        if (handyOrientation.y < originOrientation.y)
+            return (float)(-(Math.Pow(value, 2f)));
 
         return 0;
     }
     public float giveY_Tilt()
     {
+        /*
         float value = originOrientation.z - handyOrientation.z;
         if (Math.Abs(value) < 0.03f)
             return 0;
@@ -118,6 +118,19 @@ public class GameManager : MonoBehaviour
         if (value > 0)
             //return (float)((Math.Pow(value, 3f) + 0.5f) * -80);
             return (float)((Math.Pow(value, 2f)) * -1000);
+        */
+
+        float value = differenceOrientation.z;
+
+        if (value < 0.03f)
+            return 0;
+
+        if (handyOrientation.z > originOrientation.z)
+            return (float)((Math.Pow(value + 0.05f, 2f)));
+
+        if (handyOrientation.z < originOrientation.z)
+            return (float)(-(Math.Pow(value + 0.05f, 2f)));
+
 
         return 0;
     }
@@ -133,8 +146,13 @@ public class GameManager : MonoBehaviour
             }
         }
 
-        //Debug.Log(originOrientation.ToString());
-        //Debug.Log(handyOrientation.ToString());
+        differenceOrientation.x = Mathf.Abs(handyOrientation.x - originOrientation.x);
+        differenceOrientation.y = Mathf.Abs(handyOrientation.y - originOrientation.y);
+        differenceOrientation.z = Mathf.Abs(handyOrientation.z - originOrientation.z);
+
+        Debug.Log("Origin Orientation : " + originOrientation.ToString());
+        Debug.Log("Current Orientation : " + handyOrientation.ToString());
+        Debug.Log("Difference Orientation : " + differenceOrientation.ToString());
     }
 
     public void updateHandyOrigin()
@@ -189,7 +207,7 @@ public class GameManager : MonoBehaviour
                 {
                     //Debug.Log("### TOPIC:");
                     //Debug.Log(record);
-                    handyOrientation = new Vector3((float)record.Vector3.X, (float)record.Vector3.Y, (float)record.Vector3.Z).normalized;
+                    handyOrientation = new Vector3((float)record.Vector3.X, (float)record.Vector3.Y, (float)record.Vector3.Z);
                 });
 
                 //await ubiiNode.Unsubscribe(subTokenOrientation);

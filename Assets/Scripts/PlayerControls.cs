@@ -142,7 +142,7 @@ public class PlayerControls : MonoBehaviour
                 lineRenderer.SetPosition(0, schieﬂpunkt.position);
 
                 float screenX = Screen.width / 2;
-                float screenY = Screen.height / 2;
+                float screenY = Screen.height / 3 * 2;
 
                 RaycastHit hit;
                 Ray ray = camera.ScreenPointToRay(new Vector3(screenX, screenY));

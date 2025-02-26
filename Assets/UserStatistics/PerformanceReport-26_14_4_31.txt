@@ -1,0 +1,64 @@
+This is the Performance Data for:
+Code: 3 1 2 4 
+
+Current Control Technique:
+Back Button
+Level 1 / Time: 138,0802
+Level 1 / Shots: 49
+Level 1 / Hits: 12
+Level 1 / Accuracy: 0,244897959183673
+Level 2 / Time: 71,54226
+Level 3 / Time: 53,33123
+Level 3 / Shots: 26
+Level 3 / Hits: 25
+Level 3 / Accuracy: 0,961538461538462
+Level 3 / ouchRock: 1
+Level 3 / ouchFire: 8
+Total Time Technique: 262,9537
+
+Current Control Technique:
+Claw Grip
+Level 1 / Time: 157,1736
+Level 1 / Shots: 91
+Level 1 / Hits: 12
+Level 1 / Accuracy: 0,131868131868132
+Level 2 / Time: 59,28206
+Level 3 / Time: 51,0873
+Level 3 / Shots: 30
+Level 3 / Hits: 25
+Level 3 / Accuracy: 0,833333333333333
+Level 3 / ouchRock: 0
+Level 3 / ouchFire: 11
+Total Time Technique: 267,543
+
+Current Control Technique:
+Foot Pedal
+Level 1 / Time: 113,833
+Level 1 / Shots: 49
+Level 1 / Hits: 12
+Level 1 / Accuracy: 0,244897959183673
+Level 2 / Time: 58,46065
+Level 3 / Time: 36,83586
+Level 3 / Shots: 27
+Level 3 / Hits: 25
+Level 3 / Accuracy: 0,925925925925926
+Level 3 / ouchRock: 0
+Level 3 / ouchFire: 6
+Total Time Technique: 209,1295
+
+Current Control Technique:
+Tilt Control
+Level 1 / Time: 134,2527
+Level 1 / Shots: 50
+Level 1 / Hits: 12
+Level 1 / Accuracy: 0,24
+Level 2 / Time: 79,70217
+Level 3 / Time: 24,23169
+Level 3 / Shots: 25
+Level 3 / Hits: 25
+Level 3 / Accuracy: 1
+Level 3 / ouchRock: 0
+Level 3 / ouchFire: 5
+Total Time Technique: 238,1865
+
+Total Time: 977,8127

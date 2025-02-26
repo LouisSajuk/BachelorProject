@@ -24149,7 +24149,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 0 / 9
+  m_text: 0 / 12
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: d5e3cf09583886f4eb7df765256424c8, type: 2}
   m_sharedMaterial: {fileID: -6462670243070085360, guid: d5e3cf09583886f4eb7df765256424c8, type: 2}
@@ -33064,7 +33064,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 180}
   m_SizeDelta: {x: 25, y: 25}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2103367191
@@ -34124,7 +34124,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5082461461918114511, guid: 2ee7fd5e6a0d3a64db17b969ecdc2901, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
