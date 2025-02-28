@@ -150,9 +150,9 @@ public class GameManager : MonoBehaviour
         differenceOrientation.y = Mathf.Abs(handyOrientation.y - originOrientation.y);
         differenceOrientation.z = Mathf.Abs(handyOrientation.z - originOrientation.z);
 
-        Debug.Log("Origin Orientation : " + originOrientation.ToString());
-        Debug.Log("Current Orientation : " + handyOrientation.ToString());
-        Debug.Log("Difference Orientation : " + differenceOrientation.ToString());
+        //Debug.Log("Origin Orientation : " + originOrientation.ToString());
+        //Debug.Log("Current Orientation : " + handyOrientation.ToString());
+        //Debug.Log("Difference Orientation : " + differenceOrientation.ToString());
     }
 
     public void updateHandyOrigin()
